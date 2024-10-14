@@ -44,9 +44,13 @@ onMounted(async () => {
     <h1>Текущие модули</h1>
 
     <div class="flex gap-3 pt-5 align-content-center flex-wrap" v-for="(module, i) in modules" :key="i">
-      <Card class="module-cards p-3" :key="item" v-for="item in Object.keys(module)">
+
+      <RouterLink  class="module-cards p-3" :key="item" v-for="item in Object.keys(module)" :to="`/module/${item}`">
+        <Card class="p-3">
           <template #header>{{ item }}</template>
       </Card>
+      </RouterLink>
+      
       
     </div>
 
@@ -59,7 +63,7 @@ onMounted(async () => {
 <style scoped>
 
 .module-cards {
-  width: 450px;
+  width: 33.3333%;
 
 }
 </style>

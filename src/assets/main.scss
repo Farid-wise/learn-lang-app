@@ -2,6 +2,10 @@ body,html {
     background-color: ghostwhite;
 }
 
+body {
+    overflow-x: hidden;
+}
+
 .p-button-icon {
     font-size: 22px !important;
     padding: 5px !important;
