@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { dbConnect } from "@/database/db-connect";
 import { useAuthStore } from "@/stores/auth";
-import { useLS } from "@/composables/useLS";
+import { useLS } from "@/composables/service/useLS";
 
 class LangAppAPI extends BaseAPI {
   async get<T = any>({ url, source }: OmitedHandlersType): Promise<T | null> {

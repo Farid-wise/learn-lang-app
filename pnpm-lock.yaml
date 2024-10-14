@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@primevue/themes':
-        specifier: ^4.1.0
-        version: 4.1.0
+        specifier: 4.0.4
+        version: 4.0.4
       '@vueuse/core':
         specifier: ^11.1.0
         version: 11.1.0(vue@3.5.12(typescript@5.6.3))
@@ -685,12 +685,12 @@ packages:
   '@polka/url@1.0.0-next.28':
     resolution: {integrity: sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw==}
 
-  '@primeuix/styled@0.2.0':
-    resolution: {integrity: sha512-3Q6bDrmwTW88tzJsFIFenC0VyXLj0+/wYw+TZnJ/4CCDfehR4WfTs4EZdpuFtYqvmbpJ6zWXAiwSCNdSYTZkyA==}
+  '@primeuix/styled@0.0.5':
+    resolution: {integrity: sha512-pVoGn/uPkVm/DyF3TR3EmH/pL/dP4nR42FcYbVduFq9VfO3KVeOEqvcCULHXos66RZO9MCbCFUoLy6ctf9GUGQ==}
     engines: {node: '>=12.11.0'}
 
-  '@primeuix/utils@0.2.0':
-    resolution: {integrity: sha512-AaDIeRFlsbkVTk2s0mlEjnGSLi31X669NVwo+n+AVAnBdDiQznjipNTpHbOobVBtjOKZize74PChK6uoaSBRUw==}
+  '@primeuix/utils@0.0.5':
+    resolution: {integrity: sha512-ntUiUgtRtkF8KuaxHffzhYxQxoXk6LAPHm7CVlFjdqS8Rx8xRkLkZVyo84E+pO2hcNFkOGVP/GxHhQ2s94O8zA==}
     engines: {node: '>=12.11.0'}
 
   '@primevue/auto-import-resolver@4.1.0':
@@ -701,8 +701,8 @@ packages:
     resolution: {integrity: sha512-mQRFiZjn3QFF6AFe5bOYMc9I9day+VzxNSKOzuGgJj/fb3mB8bTwmORvDtzhaZs9E6FtAjmL6FRdL9rPYwUOpw==}
     engines: {node: '>=12.11.0'}
 
-  '@primevue/themes@4.1.0':
-    resolution: {integrity: sha512-EfAvNAI78rq8uPA+XFmHlACUXj2YpSM+PFjnFrTwHjqdSkmrBDweysNEI0p+/rj7l3rZBZLedEvbHcjP+9iumA==}
+  '@primevue/themes@4.0.4':
+    resolution: {integrity: sha512-eknRgSo1KQY+r7LEtb/jERhVHq4/Vlu5BKBQ8/Sc/G3DBDHaeJTDqYHWWoTxdaTJkXbC2pJMKFaJ/Vs7LuoIOw==}
     engines: {node: '>=12.11.0'}
 
   '@protobufjs/aspromise@1.1.2':
@@ -2441,11 +2441,11 @@ snapshots:
 
   '@polka/url@1.0.0-next.28': {}
 
-  '@primeuix/styled@0.2.0':
+  '@primeuix/styled@0.0.5':
     dependencies:
-      '@primeuix/utils': 0.2.0
+      '@primeuix/utils': 0.0.5
 
-  '@primeuix/utils@0.2.0': {}
+  '@primeuix/utils@0.0.5': {}
 
   '@primevue/auto-import-resolver@4.1.0':
     dependencies:
@@ -2453,9 +2453,9 @@ snapshots:
 
   '@primevue/metadata@4.1.0': {}
 
-  '@primevue/themes@4.1.0':
+  '@primevue/themes@4.0.4':
     dependencies:
-      '@primeuix/styled': 0.2.0
+      '@primeuix/styled': 0.0.5
 
   '@protobufjs/aspromise@1.1.2': {}
 

@@ -20,7 +20,6 @@ const modules = ref<Array<Module>>([
   },
 ]);
 
-
 onBeforeMount(async () => {
   await langAppApi.create<LangAppAPIType>({
     source,
@@ -41,15 +40,26 @@ onMounted(async () => {
 </script>
 
 <template>
-  <main>
-    <h1>Home</h1>
+  <section>
+    <h1>Текущие модули</h1>
 
+    <div class="flex gap-3 pt-5 align-content-center flex-wrap" v-for="(module, i) in modules" :key="i">
+      <Card class="module-cards p-3" :key="item" v-for="item in Object.keys(module)">
+          <template #header>{{ item }}</template>
+      </Card>
+      
+    </div>
 
-    <template v-for="(module, i) in modules" :key="i">
-      <div v-for="item in Object.keys(module)">
-        {{ item }}
-      </div>
-
-    </template>
-  </main>
+ 
+  </section>
 </template>
+
+
+
+<style scoped>
+
+.module-cards {
+  width: 450px;
+
+}
+</style>

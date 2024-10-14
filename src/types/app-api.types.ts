@@ -4,7 +4,7 @@ export interface Dictionary {
 }
 
 export interface Module {
-
+  
   [key: string]: {
     dic: Array<Dictionary>;
   };
