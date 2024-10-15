@@ -1,15 +1,15 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
-    <div>
-        <h1>Create Module</h1>
-    </div>
+  <div>
+    <h1>Создать Модуль</h1>
+
+    <Message :closable="false"
+      >Модули необходимо создавать в формате "определение-значение", то есть если вы
+      собираетесь изучать, к примеру Английский язык, то вы должны создать модуль
+      "язык который изучаете" - "язык на котором говорите"</Message
+    >
+  </div>
 </template>
 
-
-
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -8,7 +8,9 @@ import { useRoute } from 'vue-router';
 
 <template>
     <div>
-        <h1>Module with {{ route.params.slug }}</h1>
+        <h1>Модуль {{ (route.params.slug as string).toUpperCase() }}</h1>
+
+
     </div>
 </template>
 

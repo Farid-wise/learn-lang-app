@@ -22,7 +22,7 @@ onMounted(async () => {
       },
       "ru-en": {
         dic: [],
-        description: "",
+        description: "fdsf",
         created_at: Date.now(),
       },
     },
