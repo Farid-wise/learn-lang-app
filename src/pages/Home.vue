@@ -1,40 +1,40 @@
 <script setup lang="ts">
 import { langAppApi } from "@/api/LangAppApi";
+import ModuleCard from "@/components/ModuleCard.vue";
 import type { LangAppAPIType, Module } from "@/types/app-api.types";
-import { onBeforeMount, onMounted, ref } from "vue";
+import { onBeforeMount, onMounted, ref, watch } from "vue";
 
 const source = ref<"localstorage" | "firebase">("localstorage");
 const word = ref<string>("hello");
 
-const modules = ref<Array<Module>>([
-  {
-    "en-ru": {
-      dic: [
-        { id: "1", [word.value]: "Привет" },
-        { id: "2", world: "мир" },
-      ],
-    },
-    "ru-en": {
-      dic: [],
-    },
-  },
-]);
-
-onBeforeMount(async () => {
-  await langAppApi.create<LangAppAPIType>({
-    source,
-    data: {
-      module: modules.value,
-    },
-  });
-});
+const modules = ref<Array<Module>>([]);
 
 onMounted(async () => {
-  const data = await langAppApi.get<LangAppAPIType>({
+  const newModules = [
+    {
+      "en-ru": {
+        dic: [
+          { id: "1", [word.value]: "Привет" },
+          { id: "2", world: "мир" },
+        ],
+        description: "",
+        created_at: Date.now(),
+      },
+      "ru-en": {
+        dic: [],
+        description: "",
+        created_at: Date.now(),
+      },
+    },
+  ];
+
+  modules.value = newModules;
+});
+
+const unwatch = watch(modules, (newV, oldV) => {
+  langAppApi.create({
     source,
-  });
-  data?.module.forEach((module) => {
-    console.log(module["en-ru"].dic);
+    data: modules.value,
   });
 });
 </script>
@@ -43,27 +43,18 @@ onMounted(async () => {
   <section>
     <h1>Текущие модули</h1>
 
-    <div class="flex gap-3 pt-5 align-content-center flex-wrap" v-for="(module, i) in modules" :key="i">
+    <template v-if="modules.length">
+      <ModuleCard v-for="(module, i) in modules" :key="i" :module="module" />
+    </template>
 
-      <RouterLink  class="module-cards p-3" :key="item" v-for="item in Object.keys(module)" :to="`/module/${item}`">
-        <Card class="p-3">
-          <template #header>{{ item }}</template>
-      </Card>
-      </RouterLink>
-      
-      
-    </div>
+    <template v-else>
 
- 
+      <Message severity="warn">Модули не созданы</Message>
+
+    </template>
   </section>
 </template>
 
-
-
 <style scoped>
 
-.module-cards {
-  width: 33.3333%;
-
-}
 </style>

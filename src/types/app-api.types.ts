@@ -7,6 +7,8 @@ export interface Module {
   
   [key: string]: {
     dic: Array<Dictionary>;
+    description: string;
+    created_at: string | number;
   };
 }
 

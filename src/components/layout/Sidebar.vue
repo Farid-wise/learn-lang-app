@@ -32,7 +32,7 @@ const {isOpen} = storeToRefs(useToggleSideBarStore());
         :key="link.to"
         activeClass="active-link"
         v-for="link in links"
-        class="flex p-2 align-items-center gap-1 p-button-rounded p-button-text w-full"
+        class="flex my-2 d-block p-2 align-items-center gap-1 p-button-rounded p-button-text w-full"
         :to="link.to"
       >
         <i :class="link.icon"></i>
