@@ -1,7 +1,15 @@
 <script setup lang="ts">
 
+import { useTheme } from '@/composables/service/useTheme';
 import { useToggleSideBarStore } from '@/stores/navigaton';
+import { useThemeStore } from '@/stores/theme';
 import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+
+
+const themeStore = useThemeStore()
+
+const linkColor = computed(() => themeStore.theme === 'aura-light-blue' ? '#171a23' : '#586380');
 
 const links = [
   {
@@ -70,10 +78,14 @@ li {
 }
 
 a {
-  color: #171a23;
+  color: v-bind('linkColor');
   overflow: hidden;
   text-overflow: ellipsis;  
   font-weight: 600;
   border-radius: 10px;
+
+  &:hover {
+    color: #5D8CF0;
+  }
 }
 </style>

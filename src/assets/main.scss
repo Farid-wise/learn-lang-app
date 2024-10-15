@@ -1,14 +1,18 @@
+
+
+
 body,html {
-    background-color: ghostwhite;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 body {
     overflow-x: hidden;
 }
-
 .p-button-icon {
     font-size: 22px !important;
-    padding: 5px !important;
     display: block !important;
 }
 

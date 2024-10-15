@@ -13,7 +13,7 @@ defineProps<{ module: Module }>();
       :to="`/module/${item}`"
     >
       <Card class="p-3">
-        <template #title>{{ item.toUpperCase() }}</template>
+        <template #title><b>{{ item.toUpperCase() }}</b></template>
         <template #content>
           <p
             :style="{
@@ -24,7 +24,7 @@ defineProps<{ module: Module }>();
               width: '100%',
             }"
           >
-            {{ module[item].description }}
+           <b> {{ module[item].description }}</b>
           </p>
         </template>
       </Card>
@@ -41,14 +41,14 @@ defineProps<{ module: Module }>();
 
 .p-card {
   transition: 0.3s all ease;
+
   height: 100%;
 
   &:hover {
     transform: scale(1.05);
     will-change: contents;
     transition: 0.3s all ease;
-
-    background-color: #edefff !important;
+    background-color: #abb7ff !important;
   }
 }
 </style>

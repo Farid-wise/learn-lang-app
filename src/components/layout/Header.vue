@@ -1,17 +1,13 @@
 <script setup lang="ts">
 import { useToggleSideBarStore } from "@/stores/navigaton";
-import { useTemplateRef } from "vue";
+import Options from "../Options.vue";
 
 const store = useToggleSideBarStore();
-const op = useTemplateRef("op");
 
-const toggle = (event: Event) => {
-  op.value?.toggle(event);
-};
 </script>
 
 <template>
-  <header class="w-full">
+  <header class="w-full shadow-md">
     <nav class="flex justify-content-between items-center">
       <div id="menu">
         <Button
@@ -29,22 +25,10 @@ const toggle = (event: Event) => {
       </div>
 
       <div id="module-create">
-        <Button
-          @click="toggle"
-          icon="pi pi-plus"
-          class="p-button-rounded p-button-text"
-        />
-        <OverlayPanel ref="op">
-          <ul>
-            <RouterLink
-              class="flex p-2 module-link align-items-center gap-2 p-button-rounded p-button-text w-full"
-              :to="{ name: 'create-module' }"
-            >
-              <i class="pi pi-box text-xl"></i>
-              <span class="w-full">Создать модуль</span>
-            </RouterLink>
-          </ul>
-        </OverlayPanel>
+      
+
+        <Options />
+        
       </div>
     </nav>
   </header>
@@ -71,12 +55,5 @@ header {
   }
 }
 
-.module-link {
-    color: #586380;
-    font-weight: 600;
-}
 
-#menu button {
-  font-size: 20px;
-}
 </style>

@@ -8,7 +8,7 @@ const router = createRouter({
       path: '/',
       alias: '/home',
       meta: {
-        title: 'Home'
+        title: 'Главная'
       },
       name: 'home',
       component: () => import('../pages/Home.vue')
@@ -17,14 +17,14 @@ const router = createRouter({
       path: '/dictionary',
       name: 'dictionary',
       meta: {
-        title: 'Dictionary'
+        title: 'Словарь'
       },
       component: () => import('../pages/Dictionary.vue')
     },
     {
       path: '/pass-test',
       meta: {
-        title: 'Pass Test'
+        title: 'Тестирование'
       },
       name: 'pass-test',
       component: () => import('../pages/PassTest.vue')
@@ -33,7 +33,7 @@ const router = createRouter({
 
       path: '/create-module',
       meta: {
-        title: 'Create Module'
+        title: 'Создать модуль'
       },
       name: 'create-module',
       component: () => import('../pages/CreateModule.vue'),
@@ -43,10 +43,18 @@ const router = createRouter({
     {
       path: '/module/:slug',
       meta: {
-        title: 'Module'
+        title: 'Модуль'
       },
       name: 'module',
       component: () => import('../pages/Module.vue')
+    },
+    {
+      path: '/settings',
+      meta: {
+        title: 'Настройки'
+      },
+      name: 'settings',
+      component: () => import('../pages/Settings.vue')
     }
 
 
