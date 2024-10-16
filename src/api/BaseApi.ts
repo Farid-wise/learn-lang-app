@@ -7,7 +7,7 @@ interface IBaseAPI {
 
 export type HandlersType<T = null> = {
     url? : string,
-    source: Ref<'firebase' | 'localstorage'>,
+    source: Ref<'firebase' | 'localstorage'> | 'firebase' | 'localstorage',
     data?: T
     
 }

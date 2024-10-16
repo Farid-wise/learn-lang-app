@@ -25,9 +25,9 @@ export const useSettings = () => {
   });
   const storageOption = ref<{ name: string }>({
     name:
-      getSync<string>("storage") === "localstorage"
-        ? "Локальное хранилище"
-        : "Внешнее Firebase",
+      getSync<string>("storage") === "firebase"
+        ? "Внешнее Firebase"
+        : "Локальное хранилище",
   });
 
   const themes = ref([{ name: "Светлая" }, { name: "Темная" }]);
@@ -75,8 +75,10 @@ export const useSettings = () => {
           blockScroll: true,
           accept: () => {
             remove("dict");
-            remove("storage");
+            remove("module-keys")
             app.clearMOdules();
+
+            window.location.reload();
           },
         });
       }

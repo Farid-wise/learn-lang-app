@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import Header from "./components/layout/Header.vue";
 import Layout from "./components/layout/Layout.vue";
-
+import { useModules } from "./composables/useModules";
+useModules()
 
 </script>
 

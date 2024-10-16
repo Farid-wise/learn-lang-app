@@ -21,7 +21,7 @@ export interface LangAppAPIType {
 //     {
 //       "en-ru": {
 //         dic: [
-//           { id: "1", [word.value]: "Привет" },
+//           { id: "1", f: "Привет" },
 //           { id: "2", world: "мир" },
 //         ],
 //         description: "Изучение английского языка",
@@ -37,5 +37,4 @@ export interface LangAppAPIType {
 //     },
 //   ]
 // };
-
 

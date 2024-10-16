@@ -12,37 +12,61 @@ import { useAuthStore } from "@/stores/auth";
 import { useLS } from "@/composables/service/useLS";
 
 class LangAppAPI extends BaseAPI {
- 
   async get<T = any>({ url, source }: OmitedHandlersType): Promise<T | null> {
     const { get, remove } = useLS();
-
-    if (source.value === "localstorage") {
-
-      try {
-        return await get<T>("dict");
-      } catch (error) {
-        console.log(error);
+    if (typeof source === "string") {
+      if (source === "localstorage") {
+        try {
+          return await get<T>("dict");
+        } catch (error) {
+          console.log(error);
+        }
       }
-    } 
-    else if (source.value === "firebase") {
-      const backup = await get<T>("dict");
-      console.log(backup);
-      remove("dict");
-      return null;
-    }
+      else if(source === "firebase") {
+        const backup = await get<T>("dict");
+        remove("dict");
+        return null;
+      }
 
+
+    }
+    else {
+      if (source.value === "localstorage") {
+        try {
+          return await get<T>("dict");
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      else if (source.value === "firebase") {
+        const backup = await get<T>("dict");
+        remove("dict");
+        return null;
+      }
+  
+    }
     return Promise.resolve(null);
   }
-   async create<T = any>({ url, data, source }: HandlersType<T>) {
-    if (source.value === "localstorage") {
-      const { set } = useLS();
+  async create<T = any>({ url, data, source }: HandlersType<T>) {
+    if (typeof source === "string") {
+      if (source === "localstorage") {
+        const { set } = useLS();
 
-      try {
-        await set<T>("dict", data);
+        try {
+          await set<T>("dict", data);
+        } catch (error) {
+          console.log(error);
+        }
       }
+    } else {
+      if (source.value === "localstorage") {
+        const { set } = useLS();
 
-      catch (error) {
-        console.log(error);
+        try {
+          await set<T>("dict", data);
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   }

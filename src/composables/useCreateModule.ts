@@ -6,9 +6,9 @@ import { delay } from "@/utils/delay";
 import { useRouter } from "vue-router";
 
 export const useCreateModule = () => {
-  const { getSync ,remove, exist } = useLS();
+  const { getSync, remove, exist, set } = useLS();
 
-  const router = useRouter()  
+  const router = useRouter();
 
   const source = ref<"localstorage" | "firebase">(
     (getSync<"localstorage" | "firebase">("storage") as
@@ -28,43 +28,55 @@ export const useCreateModule = () => {
     description.value = "";
   };
 
-
-  const createModule = async (callback: () => void, error: (msg: string) => void) => {
+  const createModule = async (
+    callback: () => void,
+    error: (msg: string) => void
+  ) => {
     try {
       statuses.value.isCreating = true;
       await delay(500);
       const currentData = await langAppApi.get<LangAppAPIType>({ source });
-      const newModule = {
-        [name.value]: {
-          dic: [],
-          description: description.value,
-          created_at: Date.now(),
-          id: crypto.randomUUID(),
-        },
-      };
 
-      const updatedData = {
-        module: [...(currentData?.module || []), newModule],
-      };
+      if(currentData){
+        if(Object.keys(currentData?.module[0]!)?.includes(name.value.trim().toLowerCase())) {
+            statuses.value.error = "Модуль с таким именем уже существует!";
+            error(statuses.value.error);
+            return
+        }
+      }
+
+    
+
+      const newModules = [
+        {
+          ...currentData?.module[0],
+          [name.value.trim().toLowerCase()]: {
+            dic: [],
+            description: description.value,
+            created_at: Date.now(),
+            id: crypto.randomUUID(),
+          },
+        },
+      ];
 
       await langAppApi.create<LangAppAPIType>({
         source,
-        data: updatedData,
+        data: {
+          module: newModules,
+        },
       });
+      await set<string>("module-keys", JSON.stringify(Object.keys(newModules[0])));
+
 
       callback();
       clearValues();
 
       await router.push({ name: "home" });
-
-
-      
     } catch (e) {
       console.log(e);
       statuses.value.error = "Произошла ошибка при создании модуля!";
-      error(statuses.value.error)
-    }
-    finally {
+      error(statuses.value.error);
+    } finally {
       statuses.value.isCreating = false;
     }
   };
