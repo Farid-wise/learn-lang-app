@@ -1,50 +1,21 @@
 <script setup lang="ts">
-import { langAppApi } from "@/api/LangAppApi";
 import ModuleCard from "@/components/ModuleCard.vue";
-import type { LangAppAPIType, Module } from "@/types/app-api.types";
-import { onBeforeMount, onMounted, ref, watch } from "vue";
+import { useModules } from "@/composables/useModules";
 
-const source = ref<"localstorage" | "firebase">("localstorage");
-const word = ref<string>("hello");
 
-const modules = ref<Array<Module>>([]);
-
-onMounted(async () => {
-  const newModules = [
-    {
-      "en-ru": {
-        dic: [
-          { id: "1", [word.value]: "Привет" },
-          { id: "2", world: "мир" },
-        ],
-        description: "Изучение английского языка",
-        created_at: Date.now(),
-      },
-      "ru-en": {
-        dic: [],
-        description: "Изучение русского языка",
-        created_at: Date.now(),
-      },
-    },
-  ];
-
-  modules.value = newModules;
-});
-
-const unwatch = watch(modules, (newV, oldV) => {
-  langAppApi.create({
-    source,
-    data: modules.value,
-  });
-});
+const {modules} = useModules()
 </script>
 
 <template>
   <section>
-    <h1>Текущие модули</h1>
-
+    <h1  class="text-2xl font-bold mb-4">Текущие модули</h1>
+    {{ modules }}
     <template v-if="modules.length">
-      <ModuleCard v-for="(module, i) in modules" :key="i" :module="module" />
+   
+      <div  class="flex gap-3 pt-5 align-content-center flex-wrap">
+        <ModuleCard v-memo="modules" v-for="(module, i) in modules" :key="i" :module="module" />
+      </div>
+      
     </template>
 
     <template v-else>

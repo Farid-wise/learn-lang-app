@@ -4,11 +4,11 @@ export interface Dictionary {
 }
 
 export interface Module {
-  
   [key: string]: {
     dic: Array<Dictionary>;
     description: string;
     created_at: string | number;
+    id: string;
   };
 }
 
@@ -16,12 +16,26 @@ export interface LangAppAPIType {
   module: Array<Module>;
 }
 
-// const app: AppAPI = {
-//     module: [
-//         {
-//             "en-ru": {
-//                 dic: [{id: "1", en: "hello", ru: "привет"}, {id: "2", en: "world", ru: "мир"}]
-//             }
-//         }
-//     ]
-// }
+// const app: LangAppAPIType = {
+//   module: [
+//     {
+//       "en-ru": {
+//         dic: [
+//           { id: "1", [word.value]: "Привет" },
+//           { id: "2", world: "мир" },
+//         ],
+//         description: "Изучение английского языка",
+//         created_at: Date.now(),
+//         id: crypto.randomUUID(),
+//       },
+//       "ru-en": {
+//         dic: [],
+//         description: "Изучение русского языка",
+//         created_at: Date.now(),
+//         id: crypto.randomUUID(),
+//       },
+//     },
+//   ]
+// };
+
+

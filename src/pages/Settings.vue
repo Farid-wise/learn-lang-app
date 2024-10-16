@@ -1,46 +1,22 @@
 <script lang="ts" setup>
-import { useLS } from "@/composables/service/useLS";
-import { useTheme } from "@/composables/service/useTheme";
-import { delay } from "@/utils/delay";
+
+import { useSettings } from "@/composables/useSettings";
+import { useAppStore } from "@/stores/app";
 import Button from "primevue/button";
 import Dropdown from "primevue/dropdown";
-import { ref, watch } from "vue";
 
-const { theme } = useTheme();
-const { set } = useLS();
-const isSaving = ref<boolean>(false);
 
-const themeOption = ref<{ name: string }>({
-  name: theme.value === "aura-light-blue" ? "Светлая" : "Темная",
-});
-const storageOption = ref<{ name: string }>({ name: "Локальное хранилище" });
+const {
+  clearStorage,
+  themes,
+  themeOption,
+  storageOption,
+  storage,
+  saveOptions,
+  isSaving,
+} = useSettings()
 
-const themes = ref([{ name: "Светлая" }, { name: "Темная" }]);
-const storage = ref([{ name: "Локальное хранилище" }, { name: "Внешнее Firebase" }]);
-
-const saveOptions = async (callback: () => void, error: () => void) => {
-  isSaving.value = true;
-  await delay(500);
-  try {
-    if (themeOption.value?.name === "Светлая") {
-      theme.value = "aura-light-blue";
-    } else {
-      theme.value = "aura-dark-blue";
-    }
-
-    if (storageOption.value?.name === "Локальное хранилище") {
-      set("storage", "local");
-    } else {
-      set("storage", "firebase");
-    }
-    callback();
-  } catch (e) {
-    console.log(e);
-    error();
-  } finally {
-    isSaving.value = false;
-  }
-};
+const app = useAppStore()
 </script>
 
 <template>
@@ -78,31 +54,36 @@ const saveOptions = async (callback: () => void, error: () => void) => {
         </Dropdown>
       </div>
 
-      <Button
-        :disabled="isSaving"
-        :label="isSaving ? 'Сохранение...' : 'Сохранить'"
-        :loading="isSaving"
-        @click="
-          saveOptions(
-            () =>
-              $toast.add({
-                severity: 'success',
-                summary: 'Успешно',
-                detail: 'Настройки сохранены',
-                life: 3000,
-              }),
-            () =>
-              $toast.add({
-                severity: 'error',
-                summary: 'Ошибка',
-                detail: 'Не удалось сохранить настройки',
-                life: 3000,
-              })
-          )
-        "
-        :severity="'info'"
-        class="bg-indigo-600 border-none text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-      />
+      <div class="flex align-content-center gap-3">
+        <Button
+          :disabled="isSaving"
+          :label="isSaving ? 'Сохранение...' : 'Сохранить'"
+          :loading="isSaving"
+          @click="
+            saveOptions(
+              () =>
+                $toast.add({
+                  severity: 'success',
+                  summary: 'Успешно',
+                  detail: 'Настройки сохранены',
+                  life: 3000,
+                }),
+              () =>
+                $toast.add({
+                  severity: 'error',
+                  summary: 'Ошибка',
+                  detail: 'Не удалось сохранить настройки',
+                  life: 3000,
+                })
+            )
+          "
+          :severity="'info'"
+          class="bg-indigo-600 border-none text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+        />
+
+        <ConfirmPopup/>
+        <Button :disabled="!app.modules.length" @click="clearStorage()" severity="danger" label="Очистить хранилище" />
+      </div>
     </div>
   </div>
 </template>

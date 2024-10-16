@@ -14,15 +14,20 @@ import { useLS } from "@/composables/service/useLS";
 class LangAppAPI extends BaseAPI {
  
   async get<T = any>({ url, source }: OmitedHandlersType): Promise<T | null> {
+    const { get, remove } = useLS();
+
     if (source.value === "localstorage") {
-      const { get } = useLS();
 
       try {
         return await get<T>("dict");
       } catch (error) {
         console.log(error);
       }
-    } else if (source.value === "firebase") {
+    } 
+    else if (source.value === "firebase") {
+      const backup = await get<T>("dict");
+      console.log(backup);
+      remove("dict");
       return null;
     }
 

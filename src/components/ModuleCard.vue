@@ -5,7 +5,7 @@ defineProps<{ module: Module }>();
 </script>
 
 <template>
-  <div class="flex gap-3 pt-5 align-content-center flex-wrap">
+ 
     <RouterLink
       class="module-cards p-3"
       :key="item"
@@ -29,7 +29,7 @@ defineProps<{ module: Module }>();
         </template>
       </Card>
     </RouterLink>
-  </div>
+  
 </template>
 
 <style scoped lang="scss">
