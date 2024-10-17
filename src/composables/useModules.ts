@@ -5,15 +5,14 @@ import { useLS } from "./service/useLS";
 import { useAppStore } from "@/stores/app";
 
 export const useModules = () => {
-  const { get, set } = useLS();
+  const { get, exist} = useLS();
   const app = useAppStore()
  
   onMounted(async () => {
 
   
     try {
-      set<string>('storage', 'localstorage')
-      if ((await get('storage')) === "localstorage") {
+      if (!exist('storage') || (await get<string>('storage')).match('localstorage')) {
     
         const data = await langAppApi.get<LangAppAPIType>({ source: 'localstorage' });
         
@@ -21,6 +20,9 @@ export const useModules = () => {
           app.addModule(data.module);
           
         }
+      }
+      else {
+        console.log('firebase');
       }
     } catch (error) {
       console.log(error);

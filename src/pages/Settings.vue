@@ -9,6 +9,7 @@ import Dropdown from "primevue/dropdown";
 const {
   clearStorage,
   themes,
+  source,
   themeOption,
   storageOption,
   storage,
@@ -24,6 +25,7 @@ const app = useAppStore()
     <Toast />
     <div :class="['settings-page p-4']">
       <h1 class="text-2xl font-bold mb-4">Настройки</h1>
+      {{ source }}
 
       <div class="mb-4">
         <label for="theme" class="block text-sm font-medium text-gray-700">Тема</label>

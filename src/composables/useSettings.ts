@@ -1,5 +1,5 @@
 import type { remove } from "firebase/database";
-import { ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useLS } from "./service/useLS";
 import { useConfirm } from "primevue/useconfirm";
 import { delay } from "@/utils/delay";
@@ -9,12 +9,10 @@ import { useAppStore } from "@/stores/app";
 export const useSettings = () => {
   const { set, getSync, exist, remove } = useLS();
   const confirm = useConfirm();
-  const app = useAppStore()
+  const app = useAppStore();
 
   const source = ref<"localstorage" | "firebase">(
-    (getSync<"localstorage" | "firebase">("storage") as
-      | "localstorage"
-      | "firebase") ?? "localstorage"
+    getSync<"localstorage" | "firebase">("storage") ?? "localstorage"
   );
 
   const { theme } = useTheme();
@@ -23,11 +21,12 @@ export const useSettings = () => {
   const themeOption = ref<{ name: string }>({
     name: theme.value === "aura-light-blue" ? "Светлая" : "Темная",
   });
+
   const storageOption = ref<{ name: string }>({
     name:
-      getSync<string>("storage") === "firebase"
-        ? "Внешнее Firebase"
-        : "Локальное хранилище",
+      source.value === "localstorage"
+        ? "Локальное хранилище"
+        : "Внешнее Firebase",
   });
 
   const themes = ref([{ name: "Светлая" }, { name: "Темная" }]);
@@ -46,7 +45,9 @@ export const useSettings = () => {
         theme.value = "aura-dark-blue";
       }
 
-      if (storageOption.value?.name === "Локальное хранилище") {
+      console.log(storageOption.value);
+
+      if (storageOption.value.name === "Локальное хранилище") {
         set("storage", "localstorage");
       } else {
         set("storage", "firebase");
@@ -61,21 +62,22 @@ export const useSettings = () => {
   };
 
   const clearStorage = () => {
+    console.log(source.value);
     if (source.value === "localstorage") {
       if (exist("dict")) {
         confirm.require({
           message: "Вы уверены, что хотите очистить хранилище?",
-          header: 'Подтвердите действие',
-          icon: 'pi pi-info-circle',
-          rejectLabel: 'Отмена',
-          rejectClass: 'p-button-secondary p-button-outlined',
-          acceptClass: 'p-button-danger',
-          acceptLabel: 'Удалить',
-          acceptIcon: 'pi pi-check',
+          header: "Подтвердите действие",
+          icon: "pi pi-info-circle",
+          rejectLabel: "Отмена",
+          rejectClass: "p-button-secondary p-button-outlined",
+          acceptClass: "p-button-danger",
+          acceptLabel: "Удалить",
+          acceptIcon: "pi pi-check",
           blockScroll: true,
           accept: () => {
             remove("dict");
-            remove("module-keys")
+            remove("module-keys");
             app.clearMOdules();
 
             window.location.reload();

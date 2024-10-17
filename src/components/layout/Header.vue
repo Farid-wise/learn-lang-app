@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useToggleSideBarStore } from "@/stores/navigaton";
-import Options from "../Options.vue";
+import Options from "../ui/Options.vue";
 
 const store = useToggleSideBarStore();
 

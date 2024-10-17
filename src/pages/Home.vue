@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ModuleCard from "@/components/ModuleCard.vue";
+import ModuleCard from "@/components/ui/ModuleCard.vue";
 import { useModules } from "@/composables/useModules";
 import { useAppStore } from "@/stores/app";
 

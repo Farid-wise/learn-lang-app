@@ -42,7 +42,7 @@ export const useLS = () => {
       if (item) {
         res(JSON.parse(item) as T);
       } else {
-        rej({ error: "no data" });
+        rej(null);
       }
     });
   };
@@ -52,7 +52,7 @@ export const useLS = () => {
     if (item) {
       return JSON.parse(item) as T;
     } else {
-      return {} as T;
+      return null as T;
     }
   }
 
