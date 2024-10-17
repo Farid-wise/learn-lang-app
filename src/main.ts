@@ -15,6 +15,7 @@ import { initFireBaseApp } from './service/firebase.config'
 import { welcomePlugin } from './plugins/welcome'
 import AnimateOnScroll from 'primevue/animateonscroll'
 import Tooltip from 'primevue/tooltip'
+import { vAutofocus } from './directives/v-autofocus'
 
 
 
@@ -34,6 +35,7 @@ app.use(welcomePlugin)
 
 app.directive('animateonscroll', AnimateOnScroll);
 app.directive('tooltip', Tooltip);
+app.directive('autofocus', vAutofocus)
 
 
 app.mount('#app')

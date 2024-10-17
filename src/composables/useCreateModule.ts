@@ -68,6 +68,7 @@ export const useCreateModule = () => {
           ...currentData?.module[0],
           [name.value.trim().toLowerCase()]: {
             dic: [],
+            moduleName: name.value.trim(),
             description: description.value,
             created_at: Date.now(),
             id: crypto.randomUUID(),

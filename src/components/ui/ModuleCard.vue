@@ -5,31 +5,33 @@ defineProps<{ module: Module }>();
 </script>
 
 <template>
- 
-    <RouterLink
-      class="module-cards p-3"
-      :key="item"
-      v-for="item in Object.keys(module)"
-      :to="`/module/${item}`"
-    >
-      <Card class="p-3">
-        <template #title><b>{{ item.toUpperCase() }}</b></template>
-        <template #content>
-          <p
-            :style="{
-              whiteSpace: 'pre-wrap',
-              fontStyle: 'italic',
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-              width: '100%',
-            }"
+  <RouterLink
+    class="module-cards p-3"
+    :key="item"
+    v-for="item in Object.keys(module)"
+    :to="`/module/${item}`"
+  >
+    <Card class="p-3">
+      <template #title
+        ><b>{{ module[item].moduleName.toUpperCase() }}</b></template
+      >
+      <template #content>
+        <p
+          :style="{
+            whiteSpace: 'pre-wrap',
+            fontStyle: 'italic',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            width: '100%',
+          }"
+        >
+          <b
+            ><i>{{ new Date(module[item].created_at).toLocaleString() }}</i></b
           >
-           <b> {{ module[item].description }}</b>
-          </p>
-        </template>
-      </Card>
-    </RouterLink>
-  
+        </p>
+      </template>
+    </Card>
+  </RouterLink>
 </template>
 
 <style scoped lang="scss">
