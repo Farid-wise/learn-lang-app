@@ -1,11 +1,24 @@
-import type { remove } from "firebase/database";
-import { computed, onMounted, ref } from "vue";
+import { ref } from "vue";
 import { useLS } from "./service/useLS";
 import { useConfirm } from "primevue/useconfirm";
 import { delay } from "@/utils/delay";
 import { useTheme } from "./service/useTheme";
 import { useAppStore } from "@/stores/app";
 
+/**
+ * Provides reactive variables and functions for managing the settings of the application
+ *
+ * @returns An object with the following properties:
+ * - `source`: A reactive variable with the value of the storage source, either "localstorage" or "firebase"
+ * - `clearStorage`: A function to clear the storage
+ * - `saveOptions`: A function to save the settings
+ * - `isSaving`: A reactive variable indicating whether the settings are being saved
+ * - `storageOption`: A reactive variable with the value of the storage option, either "Локальное хранилище" or "Внешнее Firebase"
+ * - `themeOption`: A reactive variable with the value of the theme option, either "Светлая" or "Темная"
+ * - `themes`: A reactive variable with an array of theme options
+ * - `storage`: A reactive variable with an array of storage options
+ * - `theme`: A reactive variable with the value of the theme, either "aura-light-blue" or "aura-dark-blue"
+ */
 export const useSettings = () => {
   const { set, getSync, exist, remove } = useLS();
   const confirm = useConfirm();

@@ -1,15 +1,9 @@
+
 /**
- * A composable function that provides basic methods to interact with the local storage.
+ * A composable function that provides a wrapper around the browser's LocalStorage API.
  *
- * It provides the following methods:
- *  - `set`: Set a value in the local storage by key.
- *  - `remove`: Remove a value from the local storage by key.
- *  - `get`: Get a value from the local storage by key.
- *  - `empty`: Check if a value in the local storage by key is empty.
- *  - `exist`: Check if a key exists in the local storage.
- *
- * @return {Object} Object containing the methods above.
- /** */
+ * @return {{ set: (key: string, value: any) => Promise<any>, remove: (key: string) => void, empty: (prop: string) => boolean, get: (key: string) => Promise<any>, ls: Storage, getSync: <T = any>(key: string) => T, append: <T = any>(data: T[], value: any) => Promise<T[]>, exist: (key: string) => boolean }}
+ */
 export const useLS = () => {
   const ls = window.localStorage;
 

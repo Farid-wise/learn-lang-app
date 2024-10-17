@@ -2,6 +2,15 @@ import { useAuthStore } from "@/stores/auth";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useRouter } from "vue-router";
 
+/**
+ * A composable function that provides a method to authenticate the user with Google.
+ *
+ * It provides the `authViaGoogle` method which returns a promise that resolves with the user
+ * object if the authentication is successful. If the authentication fails, it rejects with an
+ * error object.
+ *
+ * @return {Object} Object containing the `authViaGoogle` method.
+ **/
 export const useGoogleAuth = () => {
   const { setUser } = useAuthStore();
   const provider = new GoogleAuthProvider();
