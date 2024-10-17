@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useTheme } from "@/composables/service/useTheme";
+import { useTheme } from '../../composables/service/useTheme';
+
 
 useTheme();
 </script>
