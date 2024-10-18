@@ -52,7 +52,7 @@ export const useCreateModule = () => {
       });
 
       if (currentData) {
-        if (moduleExists(name.value, currentData.module)) {
+        if (moduleExists(name.value, currentData.modules)) {
           statuses.value.error = "Модуль с таким именем уже существует!";
           error(statuses.value.error);
           return;
@@ -63,7 +63,7 @@ export const useCreateModule = () => {
 
       
       const newModules: Module[] = [
-        ...currentData?.module! ?? [],
+        ...currentData?.modules! ?? [],
         {
           id: crypto.randomUUID(),
           dic: [],
@@ -76,13 +76,10 @@ export const useCreateModule = () => {
       await langAppApi.create<LangAppAPIType>({
         source: source.value,
         data: {
-          module: newModules,
+          modules: newModules,
         },
       });
-      // await set<string>(
-      //   "module-keys",
-      //   JSON.stringify(Object.keys(newModules.filter(module => module.moduleName)))
-      // );
+      
 
       callback();
       clearValues();

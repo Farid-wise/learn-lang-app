@@ -2,10 +2,11 @@
 import ModuleCard from "@/components/ui/ModuleCard.vue";
 import { useModules } from "@/composables/useModules";
 import { useAppStore } from "@/stores/app";
+import { storeToRefs } from "pinia";
 
 useModules()
 
-const app = useAppStore()
+const {appModules} = storeToRefs(useAppStore())
 </script>
 
 <template>
@@ -13,10 +14,10 @@ const app = useAppStore()
     <h1  class="text-2xl font-bold mb-4">Текущие модули</h1>
 
     
-    <template v-if="app.modules.length">
+    <template v-if="appModules.modules.length">
    
       <div  class="flex gap-3 pt-5 align-content-center flex-wrap">
-        <ModuleCard  v-for="(module, i) in app.modules" :key="i" :module="module" />
+        <ModuleCard  v-for="(module, i) in appModules.modules" :key="i" :module="module" />
       </div>
       
     </template>

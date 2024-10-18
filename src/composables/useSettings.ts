@@ -90,8 +90,7 @@ export const useSettings = () => {
           blockScroll: true,
           accept: () => {
             remove("dict");
-            remove("module-keys");
-            app.clearMOdules();
+            app.clearModules();
 
             window.location.reload();
           },

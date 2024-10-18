@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useModule } from "@/composables/useModule";
+import { useAppStore } from "@/stores/app";
+import { storeToRefs } from "pinia";
 
 const {
   app,
@@ -12,20 +14,21 @@ const {
   slug,
 } = useModule();
 
-const foundModule = app?.modules.find(m => m.moduleName === slug);
+
 </script>
 
 <template>
   <div>
     <Toast />
-    
+
+     
     <h1
       title="Дважды щелкните по названию для редактирования"
       v-if="!toggleEditableName"
       @dblclick="toggleEditableName = !toggleEditableName"
       class="text-2xl font-bold mb-4"
     >
-      Модуль {{ slug }}
+      Модуль <span :style="{color: '#618FF0'}">{{ editName.toUpperCase() }}</span>
     </h1>
     <InputText
       v-autofocus
@@ -36,15 +39,18 @@ const foundModule = app?.modules.find(m => m.moduleName === slug);
     />
 
     <Message
+      v-html="editDescription"
+      :style="{padding: '10px'}"
       v-show="!toggleEditableDescription"
-      v-if="foundModule?.description?.length"
+      v-if="editDescription.length"
       @dblclick="toggleEditableDescription = !toggleEditableDescription"
       title="Дважды щелкните по описанию для редактирования"
       :closable="false"
       severity="secondary"
-      >{{ foundModule?.description }}</Message
-    >
+    />
+    
 
+    
     <Textarea
       v-if="toggleEditableDescription"
       v-autofocus

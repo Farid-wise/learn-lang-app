@@ -6,7 +6,9 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 export const useAppStore = defineStore("app", () => {
-  const modules = ref<Array<Module>>([]);
+  const appModules = ref<LangAppAPIType>({
+    modules: [],
+  });
   const { set } = useLS();
   const router = useRouter();
 
@@ -16,26 +18,25 @@ export const useAppStore = defineStore("app", () => {
    */
   const addModule = async (module: Module[]) => {
 
-    modules.value = module
+    appModules.value.modules = module
 
     
 
   };
 
+
   /**
-   * Removes a module from the store. If the module doesn't exist in the store, no action is taken.
+   * Removes a module from the store and local storage, and redirects the user back to the home page.
    * @param moduleKey The key of the module to remove
    */
   const removeModule = async (moduleKey: string) => {
-    if (moduleKey in modules.value[0]) {
-      modules.value = modules.value.filter(module => module.id !== moduleKey);
+
+    appModules.value.modules = appModules.value.modules.filter(module => module.moduleName !== moduleKey);
 
 
-      await set<Array<Module>>("dict", modules.value);
-      await set<string[]>("module-keys", Object.keys(modules.value[0]));
-
-      await router.replace({ name: "home" });
-    }
+    await set<LangAppAPIType>("dict", appModules.value);
+    await router.replace({ name: "home" });
+    
   };
 
   /**
@@ -49,22 +50,19 @@ export const useAppStore = defineStore("app", () => {
    * @param param1.name - The new name to set for the module (optional).
    * @param param1.description - The new description to set for the module (optional).
    */
-  const updateModuleNameAndDescription = (
+  const updateModuleNameAndDescription = async (
     moduleKey: string,
     { name, description }: { name?: string; description?: string }
   ) => {
     if (name) {
-      modules.value.map(module => module.moduleName === moduleKey ? { ...module, moduleName: name.trim() } : module);
-      set<LangAppAPIType>("dict", {
-        module: !Object.keys(modules.value[0]).length ? [] : modules.value,
-      });
+      appModules.value.modules = appModules.value.modules.map(module => module.moduleName === moduleKey ? { ...module, moduleName: name.trim() } : module);
+      await set<LangAppAPIType>("dict", appModules.value);
+      await router.replace({name: 'module', params: { slug: name.trim() }});
     }
 
     if (description) {
-      modules.value.map(module => module.moduleName === moduleKey ? { ...module, description: description.trim() } : module);
-      set<LangAppAPIType>("dict", {
-        module: !Object.keys(modules.value[0]).length ? [] : modules.value,
-      });
+      appModules.value.modules = appModules.value.modules.map(module => module.moduleName === moduleKey ? { ...module, description: description.trim() } : module);
+      await set<LangAppAPIType>("dict", appModules.value);
     }
   };
 
@@ -72,15 +70,15 @@ export const useAppStore = defineStore("app", () => {
    * Clears all modules in the store by setting the `modules` ref to an empty array.
    * This will also remove all modules from local storage.
    */
-  const clearMOdules = () => {
-    modules.value = [];
+  const clearModules = () => {
+    appModules.value.modules = [];
   };
 
   return {
-    modules,
+    appModules,
     addModule,
     updateModuleNameAndDescription,
     removeModule,
-    clearMOdules,
+    clearModules,
   };
 });

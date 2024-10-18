@@ -14,7 +14,7 @@ export interface Module {
 }
 
 export interface LangAppAPIType {
-  module: Array<Module>;
+  modules: Array<Module>;
 }
 
 // const app: LangAppAPIType = {

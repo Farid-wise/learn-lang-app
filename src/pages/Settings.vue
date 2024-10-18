@@ -2,6 +2,7 @@
 
 import { useSettings } from "@/composables/useSettings";
 import { useAppStore } from "@/stores/app";
+import { storeToRefs } from "pinia";
 import Button from "primevue/button";
 import Dropdown from "primevue/dropdown";
 
@@ -17,7 +18,7 @@ const {
   isSaving,
 } = useSettings()
 
-const app = useAppStore()
+const {appModules} = storeToRefs(useAppStore())
 </script>
 
 <template>
@@ -84,7 +85,7 @@ const app = useAppStore()
         />
 
         <ConfirmPopup/>
-        <Button :disabled="!app.modules.length" @click="clearStorage()" severity="danger" label="Очистить хранилище" />
+        <Button :disabled="!appModules.modules.length" @click="clearStorage()" severity="danger" label="Очистить хранилище" />
       </div>
     </div>
   </div>
