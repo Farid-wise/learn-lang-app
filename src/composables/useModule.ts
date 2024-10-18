@@ -2,6 +2,7 @@ import { useAppStore } from "@/stores/app";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useToast } from "primevue/usetoast";
+import { moduleExists } from "@/utils/module-exists";
 
 /**
  * Provides reactive variables and functions for a module page
@@ -28,13 +29,14 @@ export const useModule = () => {
   const slug = route?.params?.slug as string;
 
   const editName = ref<string>(
-    app?.modules[0][slug].moduleName as unknown as string
+    app?.modules[0][slug]?.moduleName as unknown as string
   );
   const editDescription = ref<string>(
-    app?.modules[0][slug].description as unknown as string
+    app?.modules[0][slug]?.description as unknown as string
   );
 
   const onBlurNameSave = () => {
+    
     if (!editName.value) {
       toast.add({
         severity: "error",
