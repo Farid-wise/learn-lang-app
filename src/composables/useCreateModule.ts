@@ -4,6 +4,7 @@ import { onMounted, ref } from "vue";
 import { useLS } from "./service/useLS";
 import { delay } from "@/utils/delay";
 import { useRouter } from "vue-router";
+import { moduleExists } from "@/utils/module-exists";
 
   /**
    * Provides reactive variables and functions for creating a module
@@ -51,12 +52,7 @@ export const useCreateModule = () => {
       });
 
       if (currentData) {
-        if (
-          currentData?.module[0] &&
-          Object.keys(currentData?.module[0]!)?.includes(
-            name.value.trim().toLowerCase()
-          )
-        ) {
+        if (currentData?.module[0] && moduleExists([name.value.trim()], currentData?.module[0])) {
           statuses.value.error = "Модуль с таким именем уже существует!";
           error(statuses.value.error);
           return;

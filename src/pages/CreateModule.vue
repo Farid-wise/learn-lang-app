@@ -59,7 +59,7 @@ const { name, statuses, description, createModule } = useCreateModule();
       <div class="field">
         <Button
           :loading="statuses.isCreating"
-          :disabled="!name.length || !description.length || statuses.isCreating"
+          :disabled="!name.length  || statuses.isCreating"
           type="submit"
           :label="statuses.isCreating ? 'Создание...' : 'Создать'"
           class="p-button-secondary"
