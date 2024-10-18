@@ -7,13 +7,11 @@ defineProps<{ module: Module }>();
 <template>
   <RouterLink
     class="module-cards p-3"
-    :key="item"
-    v-for="item in Object.keys(module)"
-    :to="`/module/${item}`"
+    :to="`/module/${module.moduleName}`"
   >
     <Card class="p-3">
       <template #title
-        ><b>{{ module[item].moduleName.toUpperCase() }}</b></template
+        ><b>{{ module.moduleName.toUpperCase() }}</b></template
       >
       <template #content>
         <p
@@ -26,7 +24,7 @@ defineProps<{ module: Module }>();
           }"
         >
           <b
-            ><i>{{ new Date(module[item].created_at).toLocaleString() }}</i></b
+            ><i>{{ new Date(module.created_at).toLocaleString() }}</i></b
           >
         </p>
       </template>

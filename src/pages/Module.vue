@@ -11,6 +11,8 @@ const {
   onBlurDescriptionSave,
   slug,
 } = useModule();
+
+const foundModule = app?.modules.find(m => m.moduleName === slug);
 </script>
 
 <template>
@@ -23,7 +25,7 @@ const {
       @dblclick="toggleEditableName = !toggleEditableName"
       class="text-2xl font-bold mb-4"
     >
-      Модуль {{ app?.modules[0][slug]?.moduleName }}
+      Модуль {{ slug }}
     </h1>
     <InputText
       v-autofocus
@@ -35,12 +37,12 @@ const {
 
     <Message
       v-show="!toggleEditableDescription"
-      v-if="app?.modules[0][slug]?.description?.length"
+      v-if="foundModule?.description?.length"
       @dblclick="toggleEditableDescription = !toggleEditableDescription"
       title="Дважды щелкните по описанию для редактирования"
       :closable="false"
       severity="secondary"
-      >{{ app?.modules[0][slug]?.description }}</Message
+      >{{ foundModule?.description }}</Message
     >
 
     <Textarea

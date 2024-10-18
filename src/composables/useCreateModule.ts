@@ -1,21 +1,21 @@
 import { langAppApi } from "@/api/LangAppApi";
-import type { LangAppAPIType } from "@/types/app-api.types";
+import type { LangAppAPIType, Module } from "@/types/app-api.types";
 import { onMounted, ref } from "vue";
 import { useLS } from "./service/useLS";
 import { delay } from "@/utils/delay";
 import { useRouter } from "vue-router";
 import { moduleExists } from "@/utils/module-exists";
 
-  /**
-   * Provides reactive variables and functions for creating a module
-   *
-   * @returns An object with the following properties:
-   * - `name`: A reactive string variable to store the name of the module
-   * - `description`: A reactive string variable to store the description of the module
-   * - `statuses`: An object with `isCreating` and `error` properties. `isCreating` is a boolean indicating whether the module is being created, and `error` is a string containing the error message if an error occurred
-   * - `clearValues`: A function to clear the values of `name` and `description`
-   * - `createModule`: A function to create the module. It takes two arguments: `callback` and `error`. `callback` is a function to be called when the module is created successfully, and `error` is a function to be called if an error occurred while creating the module
-   */
+/**
+ * Provides reactive variables and functions for creating a module
+ *
+ * @returns An object with the following properties:
+ * - `name`: A reactive string variable to store the name of the module
+ * - `description`: A reactive string variable to store the description of the module
+ * - `statuses`: An object with `isCreating` and `error` properties. `isCreating` is a boolean indicating whether the module is being created, and `error` is a string containing the error message if an error occurred
+ * - `clearValues`: A function to clear the values of `name` and `description`
+ * - `createModule`: A function to create the module. It takes two arguments: `callback` and `error`. `callback` is a function to be called when the module is created successfully, and `error` is a function to be called if an error occurred while creating the module
+ */
 export const useCreateModule = () => {
   const { remove, get, getSync, exist, set } = useLS();
 
@@ -52,23 +52,24 @@ export const useCreateModule = () => {
       });
 
       if (currentData) {
-        if (currentData?.module[0] && moduleExists([name.value.trim()], currentData?.module[0])) {
+        if (moduleExists(name.value, currentData.module)) {
           statuses.value.error = "Модуль с таким именем уже существует!";
           error(statuses.value.error);
           return;
         }
+
       }
 
-      const newModules = [
+
+      
+      const newModules: Module[] = [
+        ...currentData?.module! ?? [],
         {
-          ...currentData?.module[0],
-          [name.value.trim().toLowerCase()]: {
-            dic: [],
-            moduleName: name.value.trim(),
-            description: description.value,
-            created_at: Date.now(),
-            id: crypto.randomUUID(),
-          },
+          id: crypto.randomUUID(),
+          dic: [],
+          moduleName: name.value,
+          description: description.value,
+          created_at: Date.now(),
         },
       ];
 
@@ -78,16 +79,19 @@ export const useCreateModule = () => {
           module: newModules,
         },
       });
-      await set<string>(
-        "module-keys",
-        JSON.stringify(Object.keys(newModules[0]))
-      );
+      // await set<string>(
+      //   "module-keys",
+      //   JSON.stringify(Object.keys(newModules.filter(module => module.moduleName)))
+      // );
 
       callback();
       clearValues();
 
+
       await router.push({ name: "home" });
-    } catch (e) {
+
+    }
+    catch (e) {
       console.log(e);
 
       statuses.value.error = "Произошла ошибка при создании модуля!";

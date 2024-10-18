@@ -28,12 +28,9 @@ export const useModule = () => {
 
   const slug = route?.params?.slug as string;
 
-  const editName = ref<string>(
-    app?.modules[0][slug]?.moduleName as unknown as string
-  );
+  const editName = ref<string>(app.modules.find(m => m.moduleName === slug)?.moduleName || "");
   const editDescription = ref<string>(
-    app?.modules[0][slug]?.description as unknown as string
-  );
+    app.modules.find(m => m.moduleName === slug)?.description || "");
 
   const onBlurNameSave = () => {
     

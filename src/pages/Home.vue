@@ -11,6 +11,7 @@ const app = useAppStore()
 <template>
   <section>
     <h1  class="text-2xl font-bold mb-4">Текущие модули</h1>
+
     
     <template v-if="app.modules.length">
    

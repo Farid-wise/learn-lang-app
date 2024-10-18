@@ -19,8 +19,8 @@ export const useModules = () => {
     
         const data = await langAppApi.get<LangAppAPIType>({ source: 'localstorage' });
         
-        if(data){
-          app.addModule(data.module);
+        if(data?.module.length){
+          app.addModule(data?.module);
           
         }
       }

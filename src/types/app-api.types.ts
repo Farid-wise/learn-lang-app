@@ -4,13 +4,13 @@ export interface Dictionary {
 }
 
 export interface Module {
-  [key: string]: {
-    dic: Array<Dictionary>;
-    moduleName: string;
-    description: string;
-    created_at: string | number;
-    id: string;
-  };
+  
+  dic: Array<Dictionary>;
+  moduleName: string;
+  description: string;
+  created_at: string | number;
+  id: string;
+  
 }
 
 export interface LangAppAPIType {

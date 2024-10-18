@@ -1,22 +1,19 @@
 import type { Module } from "@/types/app-api.types";
 
 
+
 /**
- * Checks if the given moduleNames exist in the module object.
- * @param moduleNames the array of module names to check
- * @param module the module object to check against
- * @returns true if any of the module names exist in the module object, false otherwise
+ * Checks if a module with the given name exists in the given array of modules
+ * @param moduleName the name of the module to search for
+ * @param module the array of modules to search in
+ * @returns true if the module exists, false otherwise
  */
-export function  moduleExists(moduleNames: string[], module: Module) {
-    for(let i = 0; i< moduleNames.length; i++){
-        if(Object.keys(module).length){
-            if(Object.keys(module)?.includes(moduleNames[i])){
-                return true
-            }
-            else{
-                return false
-            }    
+export function  moduleExists(moduleName: string, module: Module[]) {
+    return module.map(m => {
+        if(m.moduleName === moduleName) {
+            return true
         }
-       
-    }
+
+        return false
+    })[0]
 }

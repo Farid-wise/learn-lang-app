@@ -1,5 +1,6 @@
 import { useLS } from "@/composables/service/useLS";
 import type { LangAppAPIType, Module } from "@/types/app-api.types";
+import { uniqueObjects } from "@/utils/unique-modules";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
@@ -14,8 +15,11 @@ export const useAppStore = defineStore("app", () => {
    * @param module The module to add
    */
   const addModule = async (module: Module[]) => {
-    console.log(modules.value);
-    modules.value = module;
+
+    modules.value = module
+
+    
+
   };
 
   /**
@@ -24,11 +28,10 @@ export const useAppStore = defineStore("app", () => {
    */
   const removeModule = async (moduleKey: string) => {
     if (moduleKey in modules.value[0]) {
-      delete modules.value[0][moduleKey];
-      await set<LangAppAPIType>("dict", {
-        module: !Object.keys(modules.value[0]).length ? [] : modules.value,
-      });
+      modules.value = modules.value.filter(module => module.id !== moduleKey);
 
+
+      await set<Array<Module>>("dict", modules.value);
       await set<string[]>("module-keys", Object.keys(modules.value[0]));
 
       await router.replace({ name: "home" });
@@ -51,14 +54,14 @@ export const useAppStore = defineStore("app", () => {
     { name, description }: { name?: string; description?: string }
   ) => {
     if (name) {
-      modules.value[0][moduleKey].moduleName = name.trim();
+      modules.value.map(module => module.moduleName === moduleKey ? { ...module, moduleName: name.trim() } : module);
       set<LangAppAPIType>("dict", {
         module: !Object.keys(modules.value[0]).length ? [] : modules.value,
       });
     }
 
     if (description) {
-      modules.value[0][moduleKey].description = description.trim();
+      modules.value.map(module => module.moduleName === moduleKey ? { ...module, description: description.trim() } : module);
       set<LangAppAPIType>("dict", {
         module: !Object.keys(modules.value[0]).length ? [] : modules.value,
       });
