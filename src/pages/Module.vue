@@ -72,7 +72,6 @@ const {
     </div>
 
     <div
-      :style="{ marginTop: toggleEditableDescription ? '15px' : '0px' }"
       class="flex gap-3 align-items-center"
     >
       <Button
