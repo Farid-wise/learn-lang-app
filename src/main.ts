@@ -16,7 +16,7 @@ import { welcomePlugin } from './plugins/welcome'
 import AnimateOnScroll from 'primevue/animateonscroll'
 import Tooltip from 'primevue/tooltip'
 import { vAutofocus } from './directives/v-autofocus'
-
+import DialogService from 'primevue/dialogservice'
 
 
 export const fireBaseInst = initFireBaseApp();
@@ -24,6 +24,7 @@ const app = createApp(App);
 
 
 app.use(ToastServie);
+app.use(DialogService);
 app.use(ConfirmationService);
 app.use(PrimeVue, {
     ripple: true

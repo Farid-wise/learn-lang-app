@@ -18,9 +18,9 @@ const links = [
     to: "/",
   },
   {
-    label: "Словарь",
+    label: "Словари",
     icon: "pi pi-fw pi-info",
-    to: "/dictionary",
+    to: "/dictionaries",
   },
 
   {

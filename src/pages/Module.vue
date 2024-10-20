@@ -1,68 +1,167 @@
 <script setup lang="ts">
 import { useModule } from "@/composables/useModule";
-import { useAppStore } from "@/stores/app";
-import { storeToRefs } from "pinia";
 
 const {
-  app,
   toggleEditableName,
   editName,
+  isNameError,
+  isNameUpdating,
   toggleEditableDescription,
   editDescription,
+  isRemovingModule,
+  removeModule,
   onBlurNameSave,
   onBlurDescriptionSave,
   slug,
 } = useModule();
-
-
 </script>
 
 <template>
   <div>
     <Toast />
+    <Dialog />
 
-     
     <h1
-      title="Дважды щелкните по названию для редактирования"
+      title="Щелкните по названию для редактирования"
       v-if="!toggleEditableName"
-      @dblclick="toggleEditableName = !toggleEditableName"
       class="text-2xl font-bold mb-4"
     >
-      Модуль <span :style="{color: '#618FF0'}">{{ editName.toUpperCase() }}</span>
+      <span class="flex align-items-center" :style="{ color: '#618FF0' }"
+        >{{ editName.toUpperCase() }}
+
+        <i
+          @click="toggleEditableName = true"
+          class="pi cursor-pointer pi-pencil ml-2"
+        ></i>
+      </span>
     </h1>
     <InputText
       v-autofocus
       v-model="editName"
-      class="d-block mb-3"
+      :class="{
+        'invalid-name-input': isNameError,
+        'updating-name-input': isNameUpdating,
+      }"
+      class="d-block mb-3 edit-name-input"
       v-else
       @blur="onBlurNameSave"
     />
 
-    <Message
-      v-html="editDescription"
-      :style="{padding: '10px'}"
-      v-show="!toggleEditableDescription"
-      v-if="editDescription.length"
-      @dblclick="toggleEditableDescription = !toggleEditableDescription"
-      title="Дважды щелкните по описанию для редактирования"
-      :closable="false"
-      severity="secondary"
-    />
-    
+    <div class="flex align-items-center relative">
+      <Message
+        v-html="editDescription"
+        :style="{ padding: '10px' }"
+        v-if="editDescription.length"
+        class="mt-0 w-full"
+        @dblclick="toggleEditableDescription = true"
+        title="Дважды щелкните по описанию для редактирования"
+        :closable="false"
+        severity="secondary"
+      />
 
-    
-    <Textarea
-      v-if="toggleEditableDescription"
-      v-autofocus
-      v-model="editDescription"
-      class="w-full"
-      @blur="onBlurDescriptionSave"
-      :autoResize="true"
-      rows="5"
-    />
+      <Textarea
+        v-autofocus
+        autofocus
+        v-model="editDescription"
+        class="w-full mb-3 edit-area"
+        :class="{ 'edit-area-active': toggleEditableDescription }"
+        @blur="onBlurDescriptionSave"
+        :autoResize="true"
+        rows="3"
+      />
+    </div>
 
-    <Button severity="danger" @click="app.removeModule(slug)">Remove</Button>
+    <div
+      :style="{ marginTop: toggleEditableDescription ? '15px' : '0px' }"
+      class="flex gap-3 align-items-center"
+    >
+      <Button
+        :label="isRemovingModule ? 'Удаление...' : 'Удалить модуль'"
+        :outlined="true"
+        severity="danger"
+        @click="removeModule(slug)"
+      />
+      <Button label="Добавить словарь" :outlined="true" />
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.edit-name-input {
+  border: none !important;
+  outline: none !important;
+  border-radius: 0px !important;
+  border-bottom: 1px solid #618ff0 !important;
+}
+
+.updating-name-input {
+  animation: blink-2 1s linear 0s 1 normal none;
+}
+
+.invalid-name-input {
+  animation: shake-horizontal 1s linear 0s 1 normal none !important;
+}
+
+.edit-area {
+  position: absolute !important;
+  left: 0;
+  opacity: 0 !important;
+  z-index: -1 !important;
+  transition: 0.3s all ease;
+  width: 100% !important;
+}
+
+.edit-area-active {
+  opacity: 1 !important;
+  z-index: 1 !important;
+  transition: 0.3s all ease;
+}
+
+@keyframes shake-horizontal {
+  0% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(-10px);
+  }
+  20% {
+    transform: translateX(10px);
+  }
+  30% {
+    transform: translateX(-10px);
+  }
+  40% {
+    transform: translateX(10px);
+  }
+  50% {
+    transform: translateX(-10px);
+  }
+  60% {
+    transform: translateX(10px);
+  }
+  70% {
+    transform: translateX(-10px);
+  }
+  80% {
+    transform: translateX(8px);
+  }
+  90% {
+    transform: translateX(-8px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes blink-2 {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+</style>

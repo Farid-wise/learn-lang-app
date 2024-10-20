@@ -14,10 +14,10 @@ const router = createRouter({
       component: () => import('../pages/Home.vue')
     },
     {
-      path: '/dictionary',
-      name: 'dictionary',
+      path: '/dictionaries',
+      name: 'dictionaries',
       meta: {
-        title: 'Словарь'
+        title: 'Словари'
       },
       component: () => import('../pages/Dictionary.vue')
     },

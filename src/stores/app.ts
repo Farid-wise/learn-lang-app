@@ -1,5 +1,6 @@
 import { useLS } from "@/composables/service/useLS";
 import type { LangAppAPIType, Module } from "@/types/app-api.types";
+import { delay } from "@/utils/delay";
 import { uniqueObjects } from "@/utils/unique-modules";
 import { defineStore } from "pinia";
 import { ref } from "vue";
@@ -35,6 +36,7 @@ export const useAppStore = defineStore("app", () => {
 
 
     await set<LangAppAPIType>("dict", appModules.value);
+    await delay(500)
     await router.replace({ name: "home" });
     
   };

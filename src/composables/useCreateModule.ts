@@ -57,13 +57,10 @@ export const useCreateModule = () => {
           error(statuses.value.error);
           return;
         }
-
       }
 
-
-      
       const newModules: Module[] = [
-        ...currentData?.modules! ?? [],
+        ...(currentData?.modules! ?? []),
         {
           id: crypto.randomUUID(),
           dic: [],
@@ -79,16 +76,12 @@ export const useCreateModule = () => {
           modules: newModules,
         },
       });
-      
 
       callback();
-      clearValues();
-
 
       await router.push({ name: "home" });
-
-    }
-    catch (e) {
+      clearValues();
+    } catch (e) {
       console.log(e);
 
       statuses.value.error = "Произошла ошибка при создании модуля!";
