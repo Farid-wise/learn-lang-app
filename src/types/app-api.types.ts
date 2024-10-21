@@ -1,6 +1,7 @@
 export interface Dictionary {
   id: string;
-  [key: string]: string;
+  key: string;
+  translate: string;
 }
 
 export interface Module {

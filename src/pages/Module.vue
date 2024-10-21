@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DictForm from "@/components/ui/DictForm.vue";
 import { useModule } from "@/composables/useModule";
 
 const {
@@ -11,6 +12,8 @@ const {
   isRemovingModule,
   removeModule,
   onBlurNameSave,
+  createDict,
+  toggleCreateDict,
   onBlurDescriptionSave,
   slug,
 } = useModule();
@@ -24,7 +27,7 @@ const {
     <h1
       title="Щелкните по названию для редактирования"
       v-if="!toggleEditableName"
-      class="text-2xl font-bold mb-4"
+      class="text-2xl font-bold mb-4 flex justify-content-between align-items-center"
     >
       <span class="flex align-items-center" :style="{ color: '#618FF0' }"
         >{{ editName.toUpperCase() }}
@@ -34,6 +37,13 @@ const {
           class="pi cursor-pointer pi-pencil ml-2"
         ></i>
       </span>
+
+      <Button
+        :label="isRemovingModule ? 'Удаление...' : 'Удалить модуль'"
+        :outlined="true"
+        severity="danger"
+        @click="removeModule(slug)"
+      />
     </h1>
     <InputText
       v-autofocus
@@ -71,17 +81,11 @@ const {
       />
     </div>
 
-    <div
-      class="flex gap-3 align-items-center"
-    >
-      <Button
-        :label="isRemovingModule ? 'Удаление...' : 'Удалить модуль'"
-        :outlined="true"
-        severity="danger"
-        @click="removeModule(slug)"
-      />
-      <Button label="Добавить словарь" :outlined="true" />
+    <div class="flex gap-3 align-items-center">
+      <Button @click="createDict()" :label="toggleCreateDict ? 'Скрыть' : 'Добавить словарь'" :outlined="true" />
     </div>
+
+    <DictForm class="mt-5" v-show="toggleCreateDict" />
   </div>
 </template>
 

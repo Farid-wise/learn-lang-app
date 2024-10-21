@@ -41,8 +41,7 @@ const links: Array<{label: string, icon: string, to: string, disabled?: boolean}
     <ul>
       <RouterLink
         :key="link.to"
-        :style="{opacity: link.disabled ? '0.5' : '1'}"
-        :title="link.disabled ? 'Не создано ни одного словаря в модуле' : ''"
+        :style="{opacity: link.disabled ? '0.5' : '1', pointerEvents: link.disabled ? 'none' : 'all'}"
         activeClass="active-link"
         v-for="link in links"
         class="flex my-2 d-block p-2 align-items-center gap-1 p-button-rounded p-button-text w-full"

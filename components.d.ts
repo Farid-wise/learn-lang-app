@@ -15,6 +15,8 @@ declare module 'vue' {
     Editor: typeof import('primevue/editor')['default']
     Header: typeof import('./src/components/layout/Header.vue')['default']
     IconField: typeof import('primevue/iconfield')['default']
+    InputGroup: typeof import('primevue/inputgroup')['default']
+    InputGroupAddon: typeof import('primevue/inputgroupaddon')['default']
     InputIcon: typeof import('primevue/inputicon')['default']
     InputText: typeof import('primevue/inputtext')['default']
     Layout: typeof import('./src/components/layout/Layout.vue')['default']

@@ -1,5 +1,5 @@
 import { useLS } from "@/composables/service/useLS";
-import type { LangAppAPIType, Module } from "@/types/app-api.types";
+import type { Dictionary, LangAppAPIType, Module } from "@/types/app-api.types";
 import { delay } from "@/utils/delay";
 import { defineStore } from "pinia";
 import { ref } from "vue";
@@ -76,11 +76,18 @@ export const useAppStore = defineStore("app", () => {
     appModules.value.modules = [];
   };
 
+  const fillDictionary = async (dict: Array<Dictionary>, moduleName: string) => {
+    appModules.value.modules = appModules.value.modules.map((module) => module.moduleName === moduleName ? { ...module, dic: dict } : module)
+
+    await set<LangAppAPIType>("dict", appModules.value);
+  }
+
   return {
     appModules,
     addModule,
     updateModuleNameAndDescription,
     removeModule,
+    fillDictionary,
     clearModules,
   };
 });

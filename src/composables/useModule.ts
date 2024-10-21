@@ -39,6 +39,8 @@ export const useModule = () => {
   const isDescriptionUpdating = ref<boolean>(false);
   const isRemovingModule = ref<boolean>(false);
 
+
+  const toggleCreateDict = ref<boolean>(true);
   const toggleEditableName = ref<boolean>(false);
   const toggleEditableDescription = ref<boolean>(false);
   const editName = ref<string>(
@@ -122,6 +124,10 @@ export const useModule = () => {
     }
   };
 
+  const createDict = () => {
+    toggleCreateDict.value = !toggleCreateDict.value;
+  }
+
 
   onClickOutside(target, () => {
     toggleEditableDescription.value = false;
@@ -133,6 +139,8 @@ export const useModule = () => {
     toggleEditableName,
     toggleEditableDescription,
     editName,
+    toggleCreateDict,
+    createDict,
     slug,
     app,
     target,
