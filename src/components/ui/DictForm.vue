@@ -8,10 +8,11 @@ import { useRoute } from "vue-router";
 const { getSync } = useLS();
 const route = useRoute();
 
-const dictInputs = ref<Array<Dictionary>>(
-  getSync<LangAppAPIType>("dict").modules.find(
+const foundDict =  getSync<LangAppAPIType>("dict").modules.find(
     (module) => module.moduleName === route.params.slug
-  )?.dic ?? [{ key: "", translate: "", id: crypto.randomUUID() }]
+  )?.dic as Array<Dictionary>;
+const dictInputs = ref<Array<Dictionary>>( foundDict && foundDict.length ? foundDict :
+  [{ key: "", translate: "", id: crypto.randomUUID() }]
 );
 
 const app = useAppStore();

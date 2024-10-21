@@ -21,7 +21,7 @@ import DialogService from 'primevue/dialogservice'
 
 export const fireBaseInst = initFireBaseApp();
 const app = createApp(App);
-
+app.use(router)
 
 app.use(ToastServie);
 app.use(DialogService);
@@ -31,7 +31,7 @@ app.use(PrimeVue, {
 });
 
 app.use(createPinia())
-app.use(router)
+
 app.use(welcomePlugin)
 
 app.directive('animateonscroll', AnimateOnScroll);

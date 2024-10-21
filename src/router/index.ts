@@ -1,4 +1,6 @@
+import { langAppApi } from "@/api/LangAppApi";
 import { useAppStore } from "@/stores/app";
+import type { LangAppAPIType } from "@/types/app-api.types";
 import { storeToRefs } from "pinia";
 import {
   createRouter,
@@ -8,19 +10,20 @@ import {
   type RouteLocationNormalizedLoadedGeneric,
 } from "vue-router";
 
-function routeGuard(
+async function routeGuard(
   to: RouteLocationNormalizedGeneric,
   from: RouteLocationNormalizedLoadedGeneric,
   next: NavigationGuardNext
 ) {
-  const { appModules } = storeToRefs(useAppStore());
+  const modules = await langAppApi.get<LangAppAPIType>({ source: "localstorage" });
+  console.log(modules)
 
   if (
     to.meta.requiresAuth &&
     to.meta.requiresDict &&
     to.path === "/dictionaries"
   ) {
-    if (!appModules.value.modules.some((module) => module.dic.length)) {
+    if (!modules?.modules.length) {
       next({ name: "home" });
     } else {
       next();

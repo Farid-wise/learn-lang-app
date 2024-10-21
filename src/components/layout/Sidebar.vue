@@ -5,7 +5,7 @@ import { useAppStore } from '@/stores/app';
 import { useToggleSideBarStore } from '@/stores/navigaton';
 import { useThemeStore } from '@/stores/theme';
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed, ref, type Ref } from 'vue';
 
 
 const themeStore = useThemeStore()
@@ -13,8 +13,8 @@ const {isOpen} = storeToRefs(useToggleSideBarStore());
 
 const linkColor = computed(() => themeStore.theme === 'aura-light-blue' ? '#171a23' : '#586380');
 const {appModules} = storeToRefs(useAppStore())
-
-const links: Array<{label: string, icon: string, to: string, disabled?: boolean}> = [
+console.log(computed(() => appModules.value.modules.length === 0),)
+const links = ref<Array<{label: string, icon: string, to: string, disabled?: Ref<boolean>}>>([
   {
     label: "Главная",
     icon: "pi pi-fw pi-home",
@@ -24,7 +24,7 @@ const links: Array<{label: string, icon: string, to: string, disabled?: boolean}
     label: "Словари",
     icon: "pi pi-fw pi-info",
     to: "/dictionaries",
-    disabled: !appModules.value.modules.some(m => m.dic.length)
+    disabled: computed(() => !appModules.value.modules.length)
   },
 
   {
@@ -32,12 +32,15 @@ const links: Array<{label: string, icon: string, to: string, disabled?: boolean}
     icon: "pi pi-fw pi-check",
     to: "/pass-test",
   },
-];
+])
+
+console.log(appModules)
 
 </script>
 
 <template>
   <aside :class="{closed: !isOpen}">
+  
     <ul>
       <RouterLink
         :key="link.to"
