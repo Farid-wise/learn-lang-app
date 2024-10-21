@@ -4,11 +4,16 @@ import Layout from "./components/layout/Layout.vue";
 import { useModules } from "./composables/useModules";
 useModules()
 
+import { useFps } from '@vueuse/core'
+
+const fps = useFps()
+
 </script>
 
 <template>
   <Layout>
     <template #header>
+      <div v-if="fps" :style="{paddingLeft: '10px'}">FPS: {{ fps }}</div>
       <Header />
     </template>
 

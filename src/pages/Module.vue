@@ -61,7 +61,7 @@ const {
 
       <Textarea
         v-autofocus
-        autofocus
+        ref="target"
         v-model="editDescription"
         class="w-full mb-3 edit-area"
         :class="{ 'edit-area-active': toggleEditableDescription }"

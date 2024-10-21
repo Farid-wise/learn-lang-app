@@ -5,6 +5,7 @@ import { useToast } from "primevue/usetoast";
 import { useDialog } from "primevue/usedialog";
 import { moduleExists } from "@/utils/module-exists";
 import { delay } from "@/utils/delay";
+import { onClickOutside } from "@vueuse/core";
 
 /**
  * Provides reactive variables and functions for managing a module.
@@ -22,7 +23,7 @@ import { delay } from "@/utils/delay";
  */
 export const useModule = () => {
   const route = useRoute();
-  
+  const target = useTemplateRef<HTMLElement>("target");
 
 
   const slug = computed(() => route?.params?.slug as string);
@@ -90,6 +91,12 @@ export const useModule = () => {
   };
 
   const onBlurDescriptionSave = () => {
+
+    if(editDescription.value === app.appModules.modules.find((m) => m.moduleName === slug.value)?.description) {
+      toggleEditableDescription.value = false;
+      return;
+    }
+
     app.updateModuleNameAndDescription(slug.value, {
       description: editDescription.value,
     });
@@ -116,6 +123,10 @@ export const useModule = () => {
   };
 
 
+  onClickOutside(target, () => {
+    toggleEditableDescription.value = false;
+  });
+
 
 
   return {
@@ -124,6 +135,7 @@ export const useModule = () => {
     editName,
     slug,
     app,
+    target,
     isRemovingModule,
     isNameError,
     editDescription,

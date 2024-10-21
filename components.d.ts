@@ -11,6 +11,7 @@ declare module 'vue' {
     Card: typeof import('primevue/card')['default']
     ConfirmPopup: typeof import('primevue/confirmpopup')['default']
     Dialog: typeof import('primevue/dialog')['default']
+    DictForm: typeof import('./src/components/ui/DictForm.vue')['default']
     Editor: typeof import('primevue/editor')['default']
     Header: typeof import('./src/components/layout/Header.vue')['default']
     IconField: typeof import('primevue/iconfield')['default']

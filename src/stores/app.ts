@@ -1,7 +1,6 @@
 import { useLS } from "@/composables/service/useLS";
 import type { LangAppAPIType, Module } from "@/types/app-api.types";
 import { delay } from "@/utils/delay";
-import { uniqueObjects } from "@/utils/unique-modules";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
@@ -18,27 +17,21 @@ export const useAppStore = defineStore("app", () => {
    * @param module The module to add
    */
   const addModule = async (module: Module[]) => {
-
-    appModules.value.modules = module
-
-    
-
+    appModules.value.modules = module;
   };
-
 
   /**
    * Removes a module from the store and local storage, and redirects the user back to the home page.
    * @param moduleKey The key of the module to remove
    */
   const removeModule = async (moduleKey: string) => {
-
-    appModules.value.modules = appModules.value.modules.filter(module => module.moduleName !== moduleKey);
-
+    appModules.value.modules = appModules.value.modules.filter(
+      (module) => module.moduleName !== moduleKey
+    );
 
     await set<LangAppAPIType>("dict", appModules.value);
-    await delay(500)
+    await delay(500);
     await router.replace({ name: "home" });
-    
   };
 
   /**
@@ -56,16 +49,23 @@ export const useAppStore = defineStore("app", () => {
     moduleKey: string,
     { name, description }: { name?: string; description?: string }
   ) => {
+    console.log("hit");
     if (name) {
-      appModules.value.modules = appModules.value.modules.map(module => module.moduleName === moduleKey ? { ...module, moduleName: name.trim() } : module);
+      appModules.value.modules = appModules.value.modules.map((module) =>
+        module.moduleName === moduleKey
+          ? { ...module, moduleName: name.trim() }
+          : module
+      );
       await set<LangAppAPIType>("dict", appModules.value);
-      await router.replace({name: 'module', params: { slug: name.trim() }});
+      await router.replace({ name: "module", params: { slug: name.trim() } });
     }
 
-    if (description) {
-      appModules.value.modules = appModules.value.modules.map(module => module.moduleName === moduleKey ? { ...module, description: description.trim() } : module);
-      await set<LangAppAPIType>("dict", appModules.value);
-    }
+    appModules.value.modules = appModules.value.modules.map((module) =>
+      module.moduleName === moduleKey
+        ? { ...module, description: description!.trim() }
+        : module
+    );
+    await set<LangAppAPIType>("dict", appModules.value);
   };
 
   /**

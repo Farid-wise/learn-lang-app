@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import { useTheme } from '@/composables/service/useTheme';
+import { useAppStore } from '@/stores/app';
 import { useToggleSideBarStore } from '@/stores/navigaton';
 import { useThemeStore } from '@/stores/theme';
 import { storeToRefs } from 'pinia';
@@ -8,10 +9,12 @@ import { computed } from 'vue';
 
 
 const themeStore = useThemeStore()
+const {isOpen} = storeToRefs(useToggleSideBarStore());
 
 const linkColor = computed(() => themeStore.theme === 'aura-light-blue' ? '#171a23' : '#586380');
+const {appModules} = storeToRefs(useAppStore())
 
-const links = [
+const links: Array<{label: string, icon: string, to: string, disabled?: boolean}> = [
   {
     label: "Главная",
     icon: "pi pi-fw pi-home",
@@ -21,6 +24,7 @@ const links = [
     label: "Словари",
     icon: "pi pi-fw pi-info",
     to: "/dictionaries",
+    disabled: !appModules.value.modules.some(m => m.dic.length)
   },
 
   {
@@ -30,7 +34,6 @@ const links = [
   },
 ];
 
-const {isOpen} = storeToRefs(useToggleSideBarStore());
 </script>
 
 <template>
@@ -38,6 +41,8 @@ const {isOpen} = storeToRefs(useToggleSideBarStore());
     <ul>
       <RouterLink
         :key="link.to"
+        :style="{opacity: link.disabled ? '0.5' : '1'}"
+        :title="link.disabled ? 'Не создано ни одного словаря в модуле' : ''"
         activeClass="active-link"
         v-for="link in links"
         class="flex my-2 d-block p-2 align-items-center gap-1 p-button-rounded p-button-text w-full"
