@@ -1,12 +1,21 @@
 <script setup lang="ts">
+import { onMounted } from "vue";
 import Header from "./components/layout/Header.vue";
 import Layout from "./components/layout/Layout.vue";
 import { useModules } from "./composables/useModules";
-useModules()
-
 import { useFps } from '@vueuse/core'
+import { useAuth } from "./composables/app/useAuth";
 
+useModules()
+const {authMe, checkIsAuth} = useAuth()
 const fps = useFps()
+
+
+onMounted(async () => {
+
+  await checkIsAuth()
+  await authMe()
+})
 
 </script>
 
@@ -20,6 +29,7 @@ const fps = useFps()
     <template #sidebar-nav>
         <Sidebar />
     </template>
+
 
     <template #content>
       <RouterView #default="{ Component }">

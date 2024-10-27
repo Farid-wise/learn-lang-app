@@ -1,6 +1,6 @@
-import { useAuthStore } from "@/stores/auth";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { useRouter } from "vue-router";
+import {useAuthStore} from "@/stores/auth";
+import {getAuth, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
+import {useRouter} from "vue-router";
 
 /**
  * A composable function that provides a method to authenticate the user with Google.
@@ -19,30 +19,28 @@ export const useGoogleAuth = () => {
 
   const authViaGoogle = async () => {
     const auth = getAuth();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential?.accessToken;
-        const user = result.user;
-        return user
-        
-      })
-      .then(async user => {
-        if(user){
-          setUser(user)
-          localStorage.setItem('user_id', user.uid)
-          await router.replace({name: 'home'})
-          
-        }
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
 
-        console.log(error);
-    });
+    try {
+      const result = await signInWithPopup(auth, provider)
+      if(result.user){
+        setUser(result.user)
+        localStorage.setItem('user_id', result.user.uid)
+        await router.replace({name: 'home'})
+      }
+    }
+    catch (error: any) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.customData.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      
+      console.log(error);
+    }
+   
+    
+  
+  
+     
   };
 
 
@@ -50,3 +48,5 @@ export const useGoogleAuth = () => {
     authViaGoogle,
   }
 };
+
+
