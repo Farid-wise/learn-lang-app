@@ -21,6 +21,10 @@ async function routeGuard(
     if (userId.value && to.name === "signIn") {
         next({name: "home"});
     }
+    
+    if(to.meta.requiresAuth && !userId.value){
+        next({name: "signIn"});
+    }
    
     
 
