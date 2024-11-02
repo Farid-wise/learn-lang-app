@@ -10,7 +10,7 @@ const emailVerfiedText = computed(() => user.value?.emailVerified ? 'Подтв�
 
 <template>
 
-  <div class="profile-page p-6 max-w-2xl mx-auto rounded-xl shadow-md space-y-4">
+  <div class="profile-page  rounded-xl shadow-md space-y-4">
     <div class="flex items-center gap-4">
       <img class="img-avatar"  :src="user?.photoURL!" alt="Profile Picture" />
       <div class="text-lg font-medium">
