@@ -32,11 +32,12 @@ async function routeGuard(
 
     if (to.meta.requiresDict && to.path === "/dictionaries") {
         const modules = await langAppApi.get<LangAppAPIType>({source: "localstorage"});
-        if (!modules?.modules.length) {
-            next({name: "home"});
-        } else {
+        if (modules?.modules.some((module) => module.dic.length)) {
             next();
+        } else {
+            next({name: "home"});
         }
+       
     }
     else {
         next();

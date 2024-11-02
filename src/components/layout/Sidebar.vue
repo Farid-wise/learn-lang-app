@@ -24,7 +24,7 @@ const links = ref<Array<{label: string, icon: string, to: string, disabled?: Ref
     label: "Словари",
     icon: "pi pi-fw pi-info",
     to: "/dictionaries",
-    disabled: computed(() => !appModules.value.modules.length)
+    disabled: computed(() => !appModules.value.modules.some((module) => module.dic.length)),
   },
 
   {
@@ -35,23 +35,26 @@ const links = ref<Array<{label: string, icon: string, to: string, disabled?: Ref
 ])
 
 console.log(appModules)
-
 </script>
 
 <template>
-  <aside :class="{closed: !isOpen}">
-  
+  <aside :class="{ closed: !isOpen }">
     <ul>
       <RouterLink
         :key="link.to"
-        :style="{opacity: link.disabled ? '0.5' : '1', pointerEvents: link.disabled ? 'none' : 'all'}"
+        :style="{
+          opacity: link.disabled ? '0.5' : '1',
+          pointerEvents: link.disabled ? 'none' : 'all',
+        }"
         activeClass="active-link"
         v-for="link in links"
         class="flex my-2 d-block p-2 align-items-center gap-1 p-button-rounded p-button-text w-full"
         :to="link.to"
       >
         <i :class="link.icon"></i>
-        <li :class="isOpen ? 'opacity-100' : 'opacity-0'" class="w-full">{{ link.label }}</li>
+        <li :class="isOpen ? 'opacity-100' : 'opacity-0'" class="w-full">
+          {{ link.label }}
+        </li>
       </RouterLink>
     </ul>
   </aside>
@@ -63,36 +66,35 @@ aside {
   padding: 15px 15px;
   min-height: 100vh;
   transition: 0.3s all ease;
-
 }
 
 .closed {
-    width: 66px;
-    transition: 0.3s all ease;
+  width: 66px;
+  transition: 0.3s all ease;
 }
 
 i {
   font-weight: 600;
 }
 li {
-    overflow: hidden;
-    text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .active-link {
-    background-color: #EDEFFF;
-    color: #006EF5;
+  background-color: #edefff;
+  color: #006ef5;
 }
 
 a {
-  color: v-bind('linkColor');
+  color: v-bind("linkColor");
   overflow: hidden;
-  text-overflow: ellipsis;  
+  text-overflow: ellipsis;
   font-weight: 600;
   border-radius: 10px;
 
   &:hover {
-    color: #5D8CF0;
+    color: #5d8cf0;
   }
 }
 </style>
