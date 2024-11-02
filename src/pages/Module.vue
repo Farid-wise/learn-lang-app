@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import DictForm from "@/components/ui/DictForm.vue";
 import { useModule } from "@/composables/useModule";
+import { useAppStore } from "@/stores/app";
+import { storeToRefs } from "pinia";
+
+
+const {appModules} = storeToRefs(useAppStore())
 
 const {
   toggleEditableName,
@@ -16,7 +21,7 @@ const {
   toggleCreateDict,
   onBlurDescriptionSave,
   slug,
-} = useModule();
+} = useModule(appModules.value.modules);
 </script>
 
 <template>
@@ -24,8 +29,9 @@ const {
     <Toast />
     <Dialog />
 
+    <pre>
+    </pre>
     <h1
-      title="Щелкните по названию для редактирования"
       v-if="!toggleEditableName"
       class="text-2xl font-bold mb-4 flex justify-content-between align-items-center"
     >

@@ -24,15 +24,25 @@ const options = [
 
   },
 
+  {
+    label: "Профиль",
+    icon: "pi pi-user",
+    to: "profile",
+    id: auth?.userId ?? ''
+    
+  }
+
 ] as {
   label: string;
   icon: string;
+  id?: string;
   to?: string;
   action?: () => void;
 }[];
 </script>
 
 <template>
+
   <Button @click="toggle" icon="pi pi-plus" class="p-button-rounded p-button-text" />
   <OverlayPanel ref="op">
     <ul>
@@ -41,7 +51,7 @@ const options = [
         v-for="option in options"
         :key="option.to"
         class="flex p-2 module-link align-items-center gap-2 p-button-rounded p-button-text w-full"
-        :to="{ name: option?.to ?? '' }"
+        :to="{ name: option?.to ?? '', params: {id: option?.id} }"
       >
         <i :class="option.icon" class="pi text-xl"></i>
         <span class="w-full">{{ option.label }}</span>

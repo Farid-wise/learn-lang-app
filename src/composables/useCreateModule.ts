@@ -22,7 +22,7 @@ export const useCreateModule = () => {
   const router = useRouter();
   const source = ref<"localstorage" | "firebase">("localstorage");
 
-  const statuses = ref<{ isCreating: boolean; error: string }>({
+  const createStatuses = ref<{ isCreating: boolean; error: string }>({
     isCreating: false,
     error: "",
   });
@@ -45,7 +45,7 @@ export const useCreateModule = () => {
     error: (msg: string) => void
   ) => {
     try {
-      statuses.value.isCreating = true;
+      createStatuses.value.isCreating = true;
       await delay(500);
       const currentData = await langAppApi.get<LangAppAPIType>({
         source: source.value,
@@ -53,8 +53,8 @@ export const useCreateModule = () => {
 
       if (currentData) {
         if (moduleExists(name.value, currentData.modules)) {
-          statuses.value.error = "Модуль с таким именем уже существует!";
-          error(statuses.value.error);
+          createStatuses.value.error = "Модуль с таким именем уже существует!";
+          error(createStatuses.value.error);
           return;
         }
       }
@@ -78,18 +78,18 @@ export const useCreateModule = () => {
       });
 
       callback();
-
+      await delay(1000);
       await router.push({ name: "home" });
       clearValues();
     } catch (e) {
       console.log(e);
 
-      statuses.value.error = "Произошла ошибка при создании модуля!";
-      error(statuses.value.error);
+      createStatuses.value.error = "Произошла ошибка при создании модуля!";
+      error(createStatuses.value.error);
     } finally {
-      statuses.value.isCreating = false;
+      createStatuses.value.isCreating = false;
     }
   };
 
-  return { name, description, clearValues, statuses, createModule };
+  return { name, description, clearValues, createStatuses, createModule };
 };

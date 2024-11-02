@@ -6,6 +6,7 @@ import { useDialog } from "primevue/usedialog";
 import { moduleExists } from "@/utils/module-exists";
 import { delay } from "@/utils/delay";
 import { onClickOutside } from "@vueuse/core";
+import type { Module } from "@/types/app-api.types";
 
 /**
  * Provides reactive variables and functions for managing a module.
@@ -21,7 +22,7 @@ import { onClickOutside } from "@vueuse/core";
  * - `onBlurNameSave`: A function to validate and save the module's name on blur.
  * - `onBlurDescriptionSave`: A function to save the module's description on blur.
  */
-export const useModule = () => {
+export const useModule = (modules: Module[]) => {
   const route = useRoute();
   const target = useTemplateRef<HTMLElement>("target");
 
@@ -43,14 +44,20 @@ export const useModule = () => {
   const toggleCreateDict = ref<boolean>(true);
   const toggleEditableName = ref<boolean>(false);
   const toggleEditableDescription = ref<boolean>(false);
+
+
+
   const editName = ref<string>(
-    app.appModules.modules.find((m) => m.moduleName === slug.value)
+    modules.find((m) => m.moduleName === slug.value)
       ?.moduleName || ""
   );
   const editDescription = ref<string>(
-    app.appModules.modules.find((m) => m.moduleName === slug.value)
+    modules.find((m) => m.moduleName === slug.value)
       ?.description || ""
   );
+
+
+
 
   const onBlurNameSave = async () => {
     isNameError.value = false;
@@ -111,6 +118,7 @@ export const useModule = () => {
 
     try {
       await app.removeModule(slug);
+      
     } catch (error) {
       console.log(error);
       toast.add({

@@ -15,19 +15,18 @@ export const useModules = () => {
   const {statuses, setLoading, resetStatus, setError, setSuccess} = useStatuses()
  
   onMounted(async () => {
-
-    setError(null)
    
     setLoading()
  
   
     try {
       if (!exist('storage') || (await get<string>('storage')).match('localstorage')) {
-        await delay(500)
+      
         const data = await langAppApi.get<LangAppAPIType>({ source: 'localstorage' });
         
         if(data?.modules.length){
           await app.addModule(data?.modules);
+          await delay(1000)
           setSuccess()
           
         }

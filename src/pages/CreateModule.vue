@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useCreateModule } from "@/composables/useCreateModule";
 
-const { name, statuses, description, createModule } = useCreateModule();
+const { name, createStatuses, description, createModule } = useCreateModule();
 </script>
 
 <template>
@@ -21,14 +21,14 @@ const { name, statuses, description, createModule } = useCreateModule();
           () => {
             $toast.add({
               severity: 'success',
-              detail: 'Модуль успешно создан',
+              detail: 'Модуль успешно создан!',
               life: 3000,
             });
           },
           (msg) => {
             $toast.add({
               severity: 'error',
-              summary: 'Модуль не создан',
+              summary: 'Модуль не создан!',
               detail: msg,
               life: 3000,
             });
@@ -50,19 +50,18 @@ const { name, statuses, description, createModule } = useCreateModule();
         <Editor
           v-model="description"
           editorStyle="height: 320px"
-           id="textarea"
+          id="textarea"
           placeholder="Описание"
           class="w-full"
         />
- 
       </div>
 
       <div class="field">
         <Button
-          :loading="statuses.isCreating"
-          :disabled="!name.length || statuses.isCreating"
+          :loading="createStatuses.isCreating"
+          :disabled="!name.length || createStatuses.isCreating"
           type="submit"
-          :label="statuses.isCreating ? 'Создание...' : 'Создать'"
+          :label="createStatuses.isCreating ? 'Создание...' : 'Создать'"
           class="p-button-secondary"
         />
       </div>

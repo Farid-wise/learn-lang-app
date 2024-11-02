@@ -1,6 +1,7 @@
 export interface Dictionary {
   id: string;
   key: string;
+  isDeleting?: boolean
   translate: string;
 }
 

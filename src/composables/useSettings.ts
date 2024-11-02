@@ -4,6 +4,7 @@ import { useConfirm } from "primevue/useconfirm";
 import { delay } from "@/utils/delay";
 import { useTheme } from "./service/useTheme";
 import { useAppStore } from "@/stores/app";
+import router from "@/router";
 
 /**
  * Provides reactive variables and functions for managing the settings of the application
@@ -88,11 +89,11 @@ export const useSettings = () => {
           acceptLabel: "Удалить",
           acceptIcon: "pi pi-check",
           blockScroll: true,
-          accept: () => {
+          accept: async () => {
             remove("dict");
             app.clearModules();
 
-            window.location.reload();
+            await router.replace({ name: "home" });
           },
         });
       }
