@@ -9,7 +9,7 @@ import type { Module } from "@/types/app-api.types";
  * @returns true if the module exists, false otherwise
  */
 export function  moduleExists(moduleName: string, module: Module[]) {
-    return module.map(m => {
+    return module?.map(m => {
         if(m.moduleName === moduleName) {
             return true
         }

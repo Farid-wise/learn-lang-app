@@ -37,6 +37,7 @@ class LangAppAPI extends BaseAPI {
           return await get<T>("dict");
         } catch (error) {
           console.log(error);
+          
         }
       } else if (source === "firebase") {
         const backup = await get<T>("dict");

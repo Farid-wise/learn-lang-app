@@ -1,10 +1,12 @@
 import { langAppApi } from "@/api/LangAppApi";
-import type { LangAppAPIType, Module } from "@/types/app-api.types";
+import type { LangAppAPIType, LangAppAPITypeV2, Module } from "@/types/app-api.types";
 import { onMounted, ref } from "vue";
 import { useLS } from "./service/useLS";
 import { delay } from "@/utils/delay";
 import { useRouter } from "vue-router";
 import { moduleExists } from "@/utils/module-exists";
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "@/stores/auth";
 
 /**
  * Provides reactive variables and functions for creating a module
@@ -17,9 +19,10 @@ import { moduleExists } from "@/utils/module-exists";
  * - `createModule`: A function to create the module. It takes two arguments: `callback` and `error`. `callback` is a function to be called when the module is created successfully, and `error` is a function to be called if an error occurred while creating the module
  */
 export const useCreateModule = () => {
-  const { remove, get, getSync, exist, set } = useLS();
+  const {getSync} = useLS();
 
   const router = useRouter();
+  const {userId} = storeToRefs(useAuthStore())
   const source = ref<"localstorage" | "firebase">("localstorage");
 
   const createStatuses = ref<{ isCreating: boolean; error: string }>({
@@ -47,41 +50,47 @@ export const useCreateModule = () => {
     try {
       createStatuses.value.isCreating = true;
       await delay(500);
-      const currentData = await langAppApi.get<LangAppAPIType>({
+      const currentData = await langAppApi.get<LangAppAPITypeV2>({
         source: source.value,
       });
 
       if (currentData) {
-        if (moduleExists(name.value, currentData.modules)) {
+        if (moduleExists(name.value, currentData[userId.value])) {
           createStatuses.value.error = "Модуль с таким именем уже существует!";
           error(createStatuses.value.error);
           return;
         }
+
+
+        const newModules: Module[] = [
+          ...(currentData[userId.value] ?? []),
+          {
+            id: crypto.randomUUID(),
+            dic: [],
+            moduleName: name.value,
+            description: description.value,
+            created_at: Date.now(),
+          },
+        ];
+  
+        await langAppApi.create<LangAppAPITypeV2>({
+          source: source.value,
+          data: {
+            [userId.value]: newModules,
+          }
+        });
+  
+        callback();
+        await delay(1000);
+        await router.push({ name: "home" });
+        clearValues();
+  
       }
 
-      const newModules: Module[] = [
-        ...(currentData?.modules! ?? []),
-        {
-          id: crypto.randomUUID(),
-          dic: [],
-          moduleName: name.value,
-          description: description.value,
-          created_at: Date.now(),
-        },
-      ];
-
-      await langAppApi.create<LangAppAPIType>({
-        source: source.value,
-        data: {
-          modules: newModules,
-        },
-      });
-
-      callback();
-      await delay(1000);
-      await router.push({ name: "home" });
-      clearValues();
-    } catch (e) {
+     
+      
+    } 
+    catch (e) {
       console.log(e);
 
       createStatuses.value.error = "Произошла ошибка при создании модуля!";

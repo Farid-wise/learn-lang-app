@@ -1,7 +1,7 @@
 import {langAppApi} from "@/api/LangAppApi";
 import {useAppStore} from "@/stores/app";
 import { useAuthStore } from "@/stores/auth";
-import type {LangAppAPIType} from "@/types/app-api.types";
+import type {LangAppAPIType, LangAppAPITypeV2} from "@/types/app-api.types";
 import {storeToRefs} from "pinia";
 import {
     createRouter,
@@ -31,8 +31,8 @@ async function routeGuard(
   
 
     if (to.meta.requiresDict && to.path === "/dictionaries") {
-        const modules = await langAppApi.get<LangAppAPIType>({source: "localstorage"});
-        if (modules?.modules.some((module) => module.dic.length)) {
+        const modules = await langAppApi.get<LangAppAPITypeV2>({source: "localstorage"}) as LangAppAPITypeV2;
+        if (modules[userId.value].some((module) => module.dic.length)) {
             next();
         } else {
             next({name: "home"});

@@ -3,10 +3,10 @@ import { useLS } from "../service/useLS";
 import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
 
 export const useAuth = () => {
-  const { get, exist, ls } = useLS();
+  const {exist, ls } = useLS();
   const auth = useAuthStore();
 
-  const authMe = async () => {
+  const authMe = () => {
     try {
       if (exist("user_id")) {
         auth.userId = ls.getItem("user_id") as string;
@@ -20,7 +20,7 @@ export const useAuth = () => {
     await auth.clearUser();
   };
 
-  const checkIsAuth = async () => {
+  const checkIsAuth = () => {
     onAuthStateChanged(getAuth(), (user) => {
         if (user) {
             auth.setUser(user);

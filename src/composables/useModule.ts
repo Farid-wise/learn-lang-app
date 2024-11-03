@@ -7,6 +7,8 @@ import { moduleExists } from "@/utils/module-exists";
 import { delay } from "@/utils/delay";
 import { onClickOutside } from "@vueuse/core";
 import type { Module } from "@/types/app-api.types";
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "@/stores/auth";
 
 /**
  * Provides reactive variables and functions for managing a module.
@@ -32,6 +34,7 @@ export const useModule = (modules: Module[]) => {
   
 
   const app = useAppStore();
+  const {userId} = storeToRefs(useAuthStore())
   const toast = useToast();
   const dialog = useDialog()
 
@@ -95,18 +98,18 @@ export const useModule = (modules: Module[]) => {
     await delay(500);
 
     isNameUpdating.value = false;
-    app.updateModuleNameAndDescription(slug.value, { name: editName.value });
+    app.updateModuleNameAndDescription(userId, slug.value, { name: editName.value });
     toggleEditableName.value = false;
   };
 
   const onBlurDescriptionSave = () => {
 
-    if(editDescription.value === app.appModules.modules.find((m) => m.moduleName === slug.value)?.description) {
+    if(editDescription.value === app.appModules[userId.value].find((m) => m.moduleName === slug.value)?.description) {
       toggleEditableDescription.value = false;
       return;
     }
 
-    app.updateModuleNameAndDescription(slug.value, {
+    app.updateModuleNameAndDescription(userId,slug.value, {
       description: editDescription.value,
     });
     toggleEditableDescription.value = false;
@@ -117,7 +120,7 @@ export const useModule = (modules: Module[]) => {
     await delay(500);
 
     try {
-      await app.removeModule(slug);
+      await app.removeModule(userId, slug);
       
     } catch (error) {
       console.log(error);

@@ -11,10 +11,10 @@ const {authMe, checkIsAuth} = useAuth()
 const fps = useFps()
 
 
-onMounted(async () => {
+onMounted(() => {
 
-  await checkIsAuth()
-  await authMe()
+  checkIsAuth()
+  authMe()
 })
 
 </script>

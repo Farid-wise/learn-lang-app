@@ -1,11 +1,13 @@
 import { useAppStore } from "@/stores/app";
-import type { LangAppAPIType, Dictionary } from "@/types/app-api.types";
+import type { Dictionary, LangAppAPITypeV2 } from "@/types/app-api.types";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useLS } from "./service/useLS";
 import { useToast } from "primevue/usetoast";
 import { useStatuses } from "./service/useStatuses";
 import { delay } from "@/utils/delay";
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "@/stores/auth";
 
 /**
  * Provides reactive variables and functions for managing a dictionary form.
@@ -23,6 +25,7 @@ export const useDictForm = () => {
   const { getSync } = useLS();
   const route = useRoute();
   const app = useAppStore();
+  const {userId} = storeToRefs(useAuthStore())
 
   const toast = useToast();
   const {setLoading, setSuccess, setError, resetStatus, statuses} = useStatuses()
@@ -30,8 +33,7 @@ export const useDictForm = () => {
 
 
 
-
-  const foundDict = getSync<LangAppAPIType>("dict").modules.find(
+  const foundDict = getSync<LangAppAPITypeV2>("dict")[userId.value].find(
     (module) => module.moduleName === route.params.slug
   )?.dic as Array<Dictionary>;
 
@@ -54,7 +56,7 @@ export const useDictForm = () => {
   
         await delay(500)
 
-        await app.fillDictionary(dictInputs.value, moduleName);
+        await app.fillDictionary(dictInputs.value, userId,  moduleName);
         setSuccess()
 
         toast.add({

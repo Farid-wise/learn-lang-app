@@ -1,10 +1,12 @@
 import { langAppApi } from "@/api/LangAppApi";
-import type { LangAppAPIType, Module } from "@/types/app-api.types";
-import { ref, onMounted } from "vue";
+import type { LangAppAPITypeV2 } from "@/types/app-api.types";
+import { onMounted } from "vue";
 import { useLS } from "./service/useLS";
 import { useAppStore } from "@/stores/app";
 import { useStatuses } from "./service/useStatuses";
 import { delay } from "@/utils/delay";
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "@/stores/auth";
 
 /**
  * This function fetches modules from local storage or firebase and adds them to the app store.
@@ -12,6 +14,7 @@ import { delay } from "@/utils/delay";
 export const useModules = () => {
   const { get, exist} = useLS();
   const app = useAppStore()
+  const {userId} = storeToRefs(useAuthStore())
   const {statuses, setLoading, resetStatus, setError, setSuccess} = useStatuses()
  
   onMounted(async () => {
@@ -22,14 +25,28 @@ export const useModules = () => {
     try {
       if (!exist('storage') || (await get<string>('storage')).match('localstorage')) {
       
-        const data = await langAppApi.get<LangAppAPIType>({ source: 'localstorage' });
+        const data = await langAppApi.get<LangAppAPITypeV2>({ source: 'localstorage' });
         
-        if(data?.modules.length){
-          await app.addModule(data?.modules);
-          await delay(1000)
-          setSuccess()
+        if(data){
+         
+          if(data[userId.value]?.length){
+            await app.addModule(userId, data[userId.value]);
+            await delay(1000)
+            setSuccess()
+            
+          }
+          else {
+            
+      
+            await app.addModule("", [])
           
+          }
         }
+        else {
+          await app.addModule("", [])
+     
+        }
+       
       }
       else {
         console.log('firebase');

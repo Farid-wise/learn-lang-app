@@ -2,10 +2,13 @@
 import DictForm from "@/components/ui/DictForm.vue";
 import { useModule } from "@/composables/useModule";
 import { useAppStore } from "@/stores/app";
+import { useAuthStore } from "@/stores/auth";
 import { storeToRefs } from "pinia";
 
 
 const {appModules} = storeToRefs(useAppStore())
+const {userId} = storeToRefs(useAuthStore())
+
 
 const {
   toggleEditableName,
@@ -21,7 +24,7 @@ const {
   toggleCreateDict,
   onBlurDescriptionSave,
   slug,
-} = useModule(appModules.value.modules);
+} = useModule(appModules.value[userId.value]);
 </script>
 
 <template>

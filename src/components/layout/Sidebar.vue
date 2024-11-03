@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
-import { useTheme } from '@/composables/service/useTheme';
 import { useAppStore } from '@/stores/app';
+import { useAuthStore } from '@/stores/auth';
 import { useToggleSideBarStore } from '@/stores/navigaton';
 import { useThemeStore } from '@/stores/theme';
 import { storeToRefs } from 'pinia';
@@ -13,7 +13,10 @@ const {isOpen} = storeToRefs(useToggleSideBarStore());
 
 const linkColor = computed(() => themeStore.theme === 'aura-light-blue' ? '#171a23' : '#586380');
 const {appModules} = storeToRefs(useAppStore())
-console.log(computed(() => appModules.value.modules.length === 0),)
+const {userId} = storeToRefs(useAuthStore())
+
+
+
 const links = ref<Array<{label: string, icon: string, to: string, disabled?: Ref<boolean>}>>([
   {
     label: "Главная",
@@ -24,7 +27,7 @@ const links = ref<Array<{label: string, icon: string, to: string, disabled?: Ref
     label: "Словари",
     icon: "pi pi-fw pi-info",
     to: "/dictionaries",
-    disabled: computed(() => !appModules.value.modules.some((module) => module.dic.length)),
+    disabled: computed(() => !appModules.value[userId.value]?.some((module) => module.dic?.length)),
   },
 
   {
@@ -34,7 +37,6 @@ const links = ref<Array<{label: string, icon: string, to: string, disabled?: Ref
   },
 ])
 
-console.log(appModules)
 </script>
 
 <template>
