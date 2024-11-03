@@ -20,6 +20,7 @@ declare module 'vue' {
     InputIcon: typeof import('primevue/inputicon')['default']
     InputText: typeof import('primevue/inputtext')['default']
     Layout: typeof import('./src/components/layout/Layout.vue')['default']
+    Listbox: typeof import('primevue/listbox')['default']
     Message: typeof import('primevue/message')['default']
     ModuleCard: typeof import('./src/components/ui/ModuleCard.vue')['default']
     Options: typeof import('./src/components/ui/Options.vue')['default']

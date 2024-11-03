@@ -65,7 +65,14 @@ export const useAppStore = defineStore("app", () => {
   };
 
   const fillDictionary = async (dict: Array<Dictionary>, userId: string | Ref<string>, moduleName: string) => {
-    appModules.value[toValue(userId)] = appModules.value[toValue(userId)].map((module) => module.moduleName === moduleName ? { ...module, dic: dict } : module)
+    appModules.value = {
+      ...appModules.value,
+      [toValue(userId)]: appModules.value[toValue(userId)].map((module) =>
+        module.moduleName === moduleName
+          ? { ...module, dic: dict }
+          : module
+      ),
+    }
 
     await set<LangAppAPITypeV2>("dict", appModules.value);
   }

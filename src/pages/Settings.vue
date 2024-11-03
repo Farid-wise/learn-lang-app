@@ -24,7 +24,7 @@ const {userId} = storeToRefs(useAuthStore())
 </script>
 
 <template>
-  <div>
+  <section>
     <Toast />
     <div :class="['settings-page p-4']">
       <h1 class="text-2xl font-bold mb-4">Настройки</h1>
@@ -90,7 +90,7 @@ const {userId} = storeToRefs(useAuthStore())
         <Button :disabled="!appModules[userId]?.length" @click="clearStorage()" severity="danger" label="Очистить хранилище" />
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped></style>

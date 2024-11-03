@@ -10,7 +10,7 @@ const emailVerfiedText = computed(() => user.value?.emailVerified ? 'Подтв�
 
 <template>
 
-  <div class="profile-page  rounded-xl shadow-md space-y-4">
+  <section class="profile-page  rounded-xl shadow-md space-y-4">
     <div class="flex items-center gap-4">
       <img class="img-avatar"  :src="user?.photoURL!" alt="Profile Picture" />
       <div class="text-lg font-medium">
@@ -26,7 +26,7 @@ const emailVerfiedText = computed(() => user.value?.emailVerified ? 'Подтв�
     <div class="mt-5">
         <Button label="Edit Profile" class="p-button-rounded p-button-secondary" />
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>

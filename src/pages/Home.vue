@@ -20,6 +20,7 @@ const {userId} = storeToRefs(useAuthStore())
     <h1 class="text-2xl font-bold mb-4">Текущие модули</h1>
 
     
+    {{ userId }}
 
     <Spinner v-if="modulesStatuses.statuses.value === Statuses.LOADING" />
     <template v-else>

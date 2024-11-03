@@ -67,8 +67,9 @@ const router = createRouter({
                 requiresAuth: true,
                 requiresDict: true,
             },
-            component: () => import("../pages/Dictionary.vue"),
+            component: () => import("../pages/Dictionaries.vue"),
         },
+    
         {
             path: "/pass-test",
             meta: {
@@ -129,6 +130,17 @@ const router = createRouter({
             },
             name: "signIn",
             component: () => import("../pages/SignIn.vue"),
+        },
+
+        {
+            path: "/dictionary/:slug",
+            name: "dictionary",
+            meta: {
+                title: "Словарь",
+                requiresAuth: true,
+                requiresDict: true,
+            },
+            component: () => import("../pages/Dictionary.vue"),
         },
     ],
 });

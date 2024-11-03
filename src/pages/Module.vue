@@ -28,7 +28,7 @@ const {
 </script>
 
 <template>
-  <div>
+  <section>
     <Toast />
     <Dialog />
 
@@ -95,7 +95,7 @@ const {
     </div>
 
     <DictForm class="mt-5" v-show="toggleCreateDict" />
-  </div>
+  </section>
 </template>
 
 <style scoped>

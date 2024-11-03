@@ -5,7 +5,7 @@ const { name, createStatuses, description, createModule } = useCreateModule();
 </script>
 
 <template>
-  <div>
+  <section>
     <Toast />
     <h1 class="text-2xl font-bold mb-4">Создать Модуль</h1>
 
@@ -66,7 +66,7 @@ const { name, createStatuses, description, createModule } = useCreateModule();
         />
       </div>
     </form>
-  </div>
+  </section>
 </template>
 
 <style scoped>

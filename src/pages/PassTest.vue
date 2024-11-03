@@ -3,9 +3,9 @@
 </script>
 
 <template>
-    <div>
+    <section>
         <h1  class="text-2xl font-bold mb-4">Пройти тест</h1>
-    </div>
+    </section>
 </template>
 
 
