@@ -30,7 +30,8 @@ export const useDictForm = () => {
   const toast = useToast();
   const {setLoading, setSuccess, setError, resetStatus, statuses} = useStatuses()
 
-
+  const key = ref<string>('')
+  const translate = ref<string>('')
 
 
   const foundDict = getSync<LangAppAPITypeV2>("dict")[userId.value].find(
@@ -110,5 +111,7 @@ export const useDictForm = () => {
     foundDict,
     deleteInputs,
     saveDict,
+    key,
+    translate
   }
 };
