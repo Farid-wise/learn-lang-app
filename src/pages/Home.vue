@@ -21,7 +21,7 @@ const {userId} = storeToRefs(useAuthStore())
 
 
     <Spinner v-if="modulesStatuses.statuses.value === Statuses.LOADING" />
-    <template v-else>
+    <template v-else-if="appModules[userId]?.length && modulesStatuses.statuses.value === Statuses.IDLE">
       <div class="flex gap-3 pt-5 align-content-center flex-wrap">
         <ModuleCard v-for="(module, i) in appModules[userId]" :key="module.id" :module="module" />
       </div>
