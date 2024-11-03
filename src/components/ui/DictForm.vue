@@ -36,8 +36,8 @@ const {
 
     <template v-for="(input, index) in dictInputs" :key="input.id">
       <InputGroup :class="{ 'deleting-input': input.isDeleting }" class="mb-3">
-        <InputText @change="key = input.key" v-model="input.key" placeholder="Введите термин" />
-        <InputText @change="translate = input.translate" v-model="input.translate" placeholder="Добавьте перевод" />
+        <InputText @change="key = input.key" v-model.trim="input.key" placeholder="Введите термин" />
+        <InputText @change="translate = input.translate" v-model.trim="input.translate" placeholder="Добавьте перевод" />
         <Button
           :disabled="index === 0"
           @click="deleteInputs(input.id)"
