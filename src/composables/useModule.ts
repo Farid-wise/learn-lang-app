@@ -81,7 +81,7 @@ export const useModule = (modules: Module[]) => {
       isNameUpdating.value = false;
       return;
     }
-    if (moduleExists(editName.value, app.appModules.modules)) {
+    if (moduleExists(editName.value, app.appModules[userId.value])) {
       toast.add({
         severity: "error",
         summary: "Ошибка",
@@ -98,7 +98,7 @@ export const useModule = (modules: Module[]) => {
     await delay(500);
 
     isNameUpdating.value = false;
-    app.updateModuleNameAndDescription(userId, slug.value, { name: editName.value });
+    app.updateModuleNameAndDescription(userId.value, slug.value, { name: editName.value });
     toggleEditableName.value = false;
   };
 
@@ -109,7 +109,7 @@ export const useModule = (modules: Module[]) => {
       return;
     }
 
-    app.updateModuleNameAndDescription(userId,slug.value, {
+    app.updateModuleNameAndDescription(userId.value, slug.value, {
       description: editDescription.value,
     });
     toggleEditableDescription.value = false;

@@ -40,7 +40,7 @@ export const useAppStore = defineStore("app", () => {
    
     if (name) {
       appModules.value[toValue(userId)] = appModules.value[toValue(userId)].map((module) =>
-        module.moduleName === moduleKey
+        module.moduleName == moduleKey
           ? { ...module, moduleName: name.trim() }
           : module
       );

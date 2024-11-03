@@ -34,9 +34,9 @@ export const useLS = () => {
     return new Promise((res, rej) => {
       const item = ls.getItem(key);
       if (item) {
-        res(JSON.parse(item) as T);
+        return res(JSON.parse(item) as T);
       } else {
-        rej(null);
+        return rej(null);
       }
     });
   };

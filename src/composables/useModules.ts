@@ -38,7 +38,7 @@ export const useModules = () => {
           else {
             
       
-            await app.addModule("", [])
+            await app.addModule(userId.value, [])
           
           }
         }

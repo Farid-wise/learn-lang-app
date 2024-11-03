@@ -19,7 +19,7 @@ import { useAuthStore } from "@/stores/auth";
  * - `createModule`: A function to create the module. It takes two arguments: `callback` and `error`. `callback` is a function to be called when the module is created successfully, and `error` is a function to be called if an error occurred while creating the module
  */
 export const useCreateModule = () => {
-  const {getSync} = useLS();
+  const {getSync, set, exist} = useLS();
 
   const router = useRouter();
   const {userId} = storeToRefs(useAuthStore())
@@ -33,9 +33,15 @@ export const useCreateModule = () => {
   const name = ref<string>("");
   const description = ref<string>("");
 
-  onMounted(() => {
-    source.value =
-      getSync<"localstorage" | "firebase">("storage") ?? "localstorage";
+  onMounted(async () => {
+    source.value = getSync<"localstorage" | "firebase">("storage") ?? "localstorage";
+
+    if(await langAppApi.get<LangAppAPITypeV2>({source: source.value}) === null){
+      await langAppApi.create<LangAppAPITypeV2>({source: source.value, data: {
+        [userId.value]: []
+      }});
+    }
+   
   });
 
   const clearValues = () => {
@@ -73,9 +79,13 @@ export const useCreateModule = () => {
           },
         ];
   
+
+
+        const prevData = !Object.keys(currentData).includes('') ? currentData : '';
         await langAppApi.create<LangAppAPITypeV2>({
           source: source.value,
           data: {
+            ...prevData,
             [userId.value]: newModules,
           }
         });

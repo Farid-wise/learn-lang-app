@@ -32,19 +32,26 @@ class LangAppAPI extends BaseAPI {
   async get<T = any>({ url, source }: OmitedHandlersType): Promise<T | null> {
     const { get, remove } = useLS();
     if (typeof source === "string") {
-      if (source === "localstorage") {
-        try {
-          return await get<T>("dict");
-        } catch (error) {
-          console.log(error);
-          
+
+
+      switch (source) {
+        case "localstorage": {
+          try {
+            return await get<T>("dict");
+          } catch (error) {
+            console.log(error);
+          }
+          break;
         }
-      } else if (source === "firebase") {
-        const backup = await get<T>("dict");
-        remove("dict");
-        return null;
+        case "firebase": {
+          const backup = await get<T>("dict");
+          remove("dict");
+          return null;
+        }
       }
-    } else {
+    } 
+    
+    else {
       if (source.value === "localstorage") {
         try {
           return await get<T>("dict");
