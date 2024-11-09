@@ -42,10 +42,7 @@ export const useModules = () => {
           
           }
         }
-        else {
-          await app.addModule("", [])
-     
-        }
+       
        
       }
       else {

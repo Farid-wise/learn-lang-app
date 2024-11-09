@@ -98,7 +98,20 @@ export const useDictForm = () => {
       itemToDelete.isDeleting = false
 
    
-      saveDict(route.params.slug as string)
+      const emptyFields = dictInputs.value.some(input => {
+        if(input.key === '' || input.translate === '') {
+          return true
+        }
+      })
+
+      if(emptyFields) {
+        return
+      }
+      else {
+        saveDict(route.params.slug as string)
+      }
+
+      
     }
 };
 

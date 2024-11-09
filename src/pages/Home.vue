@@ -6,6 +6,7 @@ import { useAppStore } from "@/stores/app";
 import { storeToRefs } from "pinia";
 import { Statuses } from "@/composables/service/useStatuses";
 import { useAuthStore } from "@/stores/auth";
+import { stripTags } from "@/utils/strip-tags";
 
 const modulesStatuses = useModules();
 
@@ -23,7 +24,7 @@ const {userId} = storeToRefs(useAuthStore())
     <Spinner v-if="modulesStatuses.statuses.value === Statuses.LOADING" />
     <template v-else-if="appModules[userId]?.length && modulesStatuses.statuses.value === Statuses.IDLE">
       <div class="flex gap-3 pt-5 align-content-center flex-wrap">
-        <ModuleCard v-for="(module, i) in appModules[userId]" :key="module.id" :module="module" />
+        <ModuleCard :title="stripTags(module.description)" v-for="(module, i) in appModules[userId]" :key="module.id" :module="module" />
       </div>
     </template>
 

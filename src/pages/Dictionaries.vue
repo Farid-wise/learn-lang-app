@@ -3,17 +3,11 @@ import { useAppStore } from "@/stores/app";
 import { useAuthStore } from "@/stores/auth";
 import { stripTags } from "@/utils/strip-tags";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
 
 const { appModules } = storeToRefs(useAppStore());
 const { userId } = storeToRefs(useAuthStore());
-const router = useRouter();
-const selectedItem = ref(appModules.value[userId.value][0]);
 
-const redirectToDictionary = async (moduleName: string) => {
-  await router.push({ name: "dictionary", params: { slug: moduleName } });
-};
+
 </script>
 
 <template>
@@ -22,22 +16,40 @@ const redirectToDictionary = async (moduleName: string) => {
 
     <ul class="space-y-4">
       <RouterLink
-        :title="stripTags(module?.description)"
+        :title="'Описание -' + ' ' +  stripTags(module?.description)"
         v-for="module in appModules[userId] || []"
         :key="module.id"
         :to="{ name: 'dictionary', params: { slug: module.moduleName } }"
-        class="block py-2 bg-white shadow-md rounded-lg hover:bg-gray-100 transition-colors duration-300"
+        class="block rounded py-2 mb-3 bg-white shadow-md rounded-lg"
       >
-        <li class="px-3">
-          <h2 class="font-semibold text-lg mb-1">Словарь {{ module.moduleName.toUpperCase() }}</h2>
+        <li class="px-3 flex justify-content-between align-items-center">
+          <h2 class="font-semibold text-lg">Словарь <i>{{ module.moduleName.toUpperCase() }}</i></h2>
+          <span :style="{borderRadius: '10px', color: '#fff'}" class="p-2 bg-blue-600">{{ module.dic.length }}</span>
         </li>
       </RouterLink>
     </ul>
   </section>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 a {
   color: #0065F5;
+  transition: 0.3s all ease;
+  background-color: transparent !important;
+  border: 1px solid rgb(233, 233, 239) !important;
+  box-shadow: none;
+
+  &:hover {
+    transform: scale(1.01234);
+    transition: 0.3s all ease; 
+    will-change: contents;
+  }
+
+
+
+}
+
+a.rounded {
+  border-radius: 10px;
 }
 </style>
