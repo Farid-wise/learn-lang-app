@@ -34,6 +34,7 @@ const links = ref<Array<{label: string, icon: string, to: string, disabled?: Ref
     label: "Tест",
     icon: "pi pi-fw pi-check",
     to: "/pass-test",
+    disabled: computed(() => !appModules.value[userId.value]?.some((module) => module.dic?.length)),
   },
 ])
 

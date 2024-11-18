@@ -5,9 +5,11 @@ import Layout from "./components/layout/Layout.vue";
 import { useModules } from "./composables/useModules";
 import { useFps } from '@vueuse/core'
 import { useAuth } from "./composables/app/useAuth";
+import { useRoute } from "vue-router";
 
 useModules()
 const {authMe, checkIsAuth} = useAuth()
+const route = useRoute()
 const fps = useFps()
 
 
@@ -32,15 +34,17 @@ onMounted(() => {
 
 
     <template #content>
+  
+     
       <RouterView #default="{ Component }">
-
         <Transition
+          v-if="!(route?.name === 'signIn')"
           name="fade"
           mode="out-in"
         >
           <component :is="Component" />
         </Transition>
-
+        <component v-else :is="Component" />
       </RouterView>
     </template>
   </Layout>

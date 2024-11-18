@@ -21,6 +21,8 @@ import DialogService from 'primevue/dialogservice'
 
 export const fireBaseInst = initFireBaseApp();
 const app = createApp(App);
+
+
 app.use(router)
 
 app.use(ToastServie);

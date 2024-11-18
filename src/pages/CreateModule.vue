@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useCreateModule } from "@/composables/useCreateModule";
+import Textarea from "primevue/textarea";
 
 const { name, createStatuses, description, createModule } = useCreateModule();
 </script>
@@ -47,12 +48,13 @@ const { name, createStatuses, description, createModule } = useCreateModule();
       </div>
 
       <div class="field">
-        <Editor
+        <Textarea
           v-model="description"
-          editorStyle="height: 320px"
+          :autoResize="true"
+          rows="10"
+          placeholder="Описание модуля"
           id="textarea"
-          placeholder="Описание"
-          class="w-full"
+          type="text"
         />
       </div>
 

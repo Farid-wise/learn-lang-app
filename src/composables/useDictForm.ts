@@ -30,24 +30,26 @@ export const useDictForm = () => {
   const toast = useToast();
   const {setLoading, setSuccess, setError, resetStatus, statuses} = useStatuses()
 
-  const key = ref<string>('')
-  const translate = ref<string>('')
-
-
   const foundDict = getSync<LangAppAPITypeV2>("dict")[userId.value].find(
     (module) => module.moduleName === route.params.slug
   )?.dic as Array<Dictionary>;
 
+  const key = ref<string>(foundDict.find(dict => dict.moduleName === route.params.slug)?.key || '')
+  const translate = ref<string>(foundDict.find(dict => dict.moduleName === route.params.slug)?.translate || '')
+
+
+
+
   const dictInputs = ref<Array<Dictionary>>(
     foundDict && foundDict.length
       ? foundDict
-      : [{ key: "", translate: "", id: crypto.randomUUID() }]
+      : [{ key: "", translate: "", id: crypto.randomUUID(), moduleName: route.params.slug as string }]
   );
 
 
 
   const addInputs = () => {
-    dictInputs.value.push({ key: "", translate: "", id: crypto.randomUUID() });
+    dictInputs.value.push({ key: "", translate: "", id: crypto.randomUUID(), moduleName: route.params.slug as string });
   };
 
 
@@ -57,7 +59,7 @@ export const useDictForm = () => {
   
         await delay(500)
 
-        await app.fillDictionary(dictInputs.value, userId,  moduleName);
+        await app.fillDictionary(dictInputs.value, userId, moduleName);
         setSuccess()
 
         toast.add({

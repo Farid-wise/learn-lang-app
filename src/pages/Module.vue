@@ -90,7 +90,7 @@ const {
       />
     </div>
 
-    <div class="flex gap-3 align-items-center">
+    <div :style="{marginTop: toggleEditableDescription ? '10px' : ''}" class="flex gap-3 align-items-center">
       <Button @click="createDict()" :label="toggleCreateDict ? 'Скрыть' : 'Добавить словарь'" :outlined="true" />
     </div>
 
