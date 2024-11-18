@@ -5,6 +5,8 @@ import { delay } from "@/utils/delay";
 import { useTheme } from "./service/useTheme";
 import { useAppStore } from "@/stores/app";
 import router from "@/router";
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "@/stores/auth";
 
 /**
  * Provides reactive variables and functions for managing the settings of the application
@@ -24,6 +26,7 @@ export const useSettings = () => {
   const { set, getSync, exist, remove } = useLS();
   const confirm = useConfirm();
   const app = useAppStore();
+  const {userId} = storeToRefs(useAuthStore())
 
   const source = ref<"localstorage" | "firebase">(
     getSync<"localstorage" | "firebase">("storage") ?? "localstorage"
@@ -76,7 +79,7 @@ export const useSettings = () => {
   };
 
   const clearStorage = () => {
-    console.log(source.value);
+ 
     if (source.value === "localstorage") {
       if (exist("dict")) {
         confirm.require({
@@ -89,13 +92,20 @@ export const useSettings = () => {
           acceptLabel: "Удалить",
           acceptIcon: "pi pi-check",
           blockScroll: true,
-          accept: async () => {
+          accept: () => {
             remove("dict");
-            app.clearModules();
+            app.clearModules(userId, async () => {
+             
+              await router.push({ name: "home" });
+    
+            });
+           
 
-            await router.replace({ name: "home" });
           },
+          
         });
+
+       
       }
     }
   };

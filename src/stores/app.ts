@@ -60,8 +60,9 @@ export const useAppStore = defineStore("app", () => {
    * Clears all modules in the store by setting the `modules` ref to an empty array.
    * This will also remove all modules from local storage.
    */
-  const clearModules = () => {
-    appModules.value.modules = [];
+  const clearModules = (userId: Ref<string>, callback: () => void) => {
+    appModules.value[userId.value] = [];
+    callback();
   };
 
   const fillDictionary = async (dict: Array<Dictionary>, userId: string | Ref<string>, moduleName: string) => {

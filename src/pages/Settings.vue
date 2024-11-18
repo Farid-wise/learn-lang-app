@@ -87,7 +87,7 @@ const {userId} = storeToRefs(useAuthStore())
         />
 
         <ConfirmPopup/>
-        <Button :disabled="!appModules[userId]?.length" @click="clearStorage()" severity="danger" label="Очистить хранилище" />
+        <Button :disabled="!appModules[userId]?.length" @click="clearStorage" severity="danger" label="Очистить хранилище" />
       </div>
     </div>
   </section>
