@@ -1,15 +1,16 @@
 import { BaseAPI, type HandlersType, type OmitedHandlersType } from "./BaseApi";
-import {
-  collection,
-  query,
-  orderBy,
-  getDocs,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
-import { dbConnect } from "@/database/db-connect";
-import { useAuthStore } from "@/stores/auth";
+// import {
+//   collection,
+//   query,
+//   orderBy,
+//   getDocs,
+//   deleteDoc,
+//   doc,
+// } from "firebase/firestore";
+// import { dbConnect } from "@/database/db-connect";
+// import { useAuthStore } from "@/stores/auth";
 import { useLS } from "@/composables/service/useLS";
+import axios from "axios";
 
 /*
   Here is a succinct explanation of the LangAppAPI class definition:
@@ -29,6 +30,9 @@ import { useLS } from "@/composables/service/useLS";
 */
 
 class LangAppAPI extends BaseAPI {
+ 
+
+
   async get<T = any>({ url, source }: OmitedHandlersType): Promise<T | null> {
     const { get, remove } = useLS();
     if (typeof source === "string") {
@@ -44,26 +48,28 @@ class LangAppAPI extends BaseAPI {
           break;
         }
         case "firebase": {
-          const backup = await get<T>("dict");
-          remove("dict");
-          return null;
+      
+          const {data} = await axios.get<T>(url as string)
+          return Promise.resolve(data)
         }
       }
     } 
     
     else {
-      if (source.value === "localstorage") {
-        try {
-          return await get<T>("dict");
-        } catch (error) {
-          console.log(error);
-        }
-      } else if (source.value === "firebase") {
-        const backup = await get<T>("dict");
-        remove("dict");
-        return null;
+      switch (source.value) {
+        case "localstorage":
+          try {
+            return await get<T>("dict");
+          } catch (error) {
+            console.log(error);
+          }
+          break;
+        case "firebase":
+          const { data } = await axios.get<T>(url as string);
+          return Promise.resolve(data);
       }
     }
+
     return Promise.resolve(null);
   }
   async create<T = any>({ url, data, source }: HandlersType<T>) {

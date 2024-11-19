@@ -1,5 +1,5 @@
 import { langAppApi } from "@/api/LangAppApi";
-import type { LangAppAPITypeV2 } from "@/types/app-api.types";
+import type { LangAppAPITypeV2, LangAppAPITypeV3 } from "@/types/app-api.types";
 import { onMounted } from "vue";
 import { useLS } from "./service/useLS";
 import { useAppStore } from "@/stores/app";
@@ -36,7 +36,6 @@ export const useModules = () => {
             
           }
           else {
-            
       
             await app.addModule(userId.value, [])
           
@@ -46,12 +45,22 @@ export const useModules = () => {
        
       }
       else {
-        console.log('firebase');
-        setSuccess()
+        console.log('firebase')
+        const data = await langAppApi.get<LangAppAPITypeV3>({
+          source: 'firebase',
+          url: 'https://52644fae60d09042.mokky.dev/learn-lang-modules'
+        })
+        if(data){
+          console.log(data)
+          await app.addModule(userId.value, data[0][userId.value])
+          await delay(1000)
+          setSuccess()
+        }
+       
       }
     } catch (error: any) {
       console.log(error);
-      setError(error.message)
+      setError(error?.message)
     }
     finally {
 

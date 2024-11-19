@@ -43,13 +43,13 @@ export const useSettings = () => {
     name:
       source.value === "localstorage"
         ? "Локальное хранилище"
-        : "Внешнее Firebase",
+        : "Внешнее облако",
   });
 
   const themes = ref([{ name: "Светлая" }, { name: "Темная" }]);
   const storage = ref([
     { name: "Локальное хранилище" },
-    { name: "Внешнее Firebase" },
+    { name: "Внешнее облако" },
   ]);
 
   const saveOptions = async (callback: () => void, error: () => void) => {
@@ -62,12 +62,14 @@ export const useSettings = () => {
         theme.value = "aura-dark-blue";
       }
 
-      console.log(storageOption.value);
+      //console.log(storageOption.value);
 
       if (storageOption.value.name === "Локальное хранилище") {
         set("storage", "localstorage");
+        app.appModules = {};
       } else {
         set("storage", "firebase");
+        app.appModules = {};
       }
       callback();
     } catch (e) {

@@ -1,5 +1,9 @@
 import { useAppStore } from "@/stores/app";
-import type { Dictionary, LangAppAPITypeV2 } from "@/types/app-api.types";
+import type {
+  Dictionary,
+  LangAppAPITypeV2,
+  Module,
+} from "@/types/app-api.types";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useLS } from "./service/useLS";
@@ -25,98 +29,102 @@ export const useDictForm = () => {
   const { getSync } = useLS();
   const route = useRoute();
   const app = useAppStore();
-  const {userId} = storeToRefs(useAuthStore())
+  const { userId } = storeToRefs(useAuthStore());
 
   const toast = useToast();
-  const {setLoading, setSuccess, setError, resetStatus, statuses} = useStatuses()
+  const { setLoading, setSuccess, setError, resetStatus, statuses } =
+    useStatuses();
 
-  const foundDict = getSync<LangAppAPITypeV2>("dict")[userId.value].find(
-    (module) => module.moduleName === route.params.slug
-  )?.dic as Array<Dictionary>;
+  const foundDict =
+    getSync("storage") === "localstorage"
+      ? app.appModules[userId.value].find(
+          (module) => module.moduleName === route.params.slug
+        )?.dic
+      : app.appModules[userId.value].find(
+          (module) => module.moduleName === route.params.slug
+        )?.dic;
 
-  const key = ref<string>(foundDict.find(dict => dict.moduleName === route.params.slug)?.key || '')
-  const translate = ref<string>(foundDict.find(dict => dict.moduleName === route.params.slug)?.translate || '')
-
-
-
+  const key = ref<string>(
+    foundDict?.find((dict) => dict.moduleName === route.params.slug)?.key || ""
+  );
+  const translate = ref<string>(
+    foundDict?.find((dict) => dict.moduleName === route.params.slug)
+      ?.translate || ""
+  );
 
   const dictInputs = ref<Array<Dictionary>>(
     foundDict && foundDict.length
       ? foundDict
-      : [{ key: "", translate: "", id: crypto.randomUUID(), moduleName: route.params.slug as string }]
+      : [
+          {
+            key: "",
+            translate: "",
+            id: crypto.randomUUID(),
+            moduleName: route.params.slug as string,
+          },
+        ]
   );
 
-
-
   const addInputs = () => {
-    dictInputs.value.push({ key: "", translate: "", id: crypto.randomUUID(), moduleName: route.params.slug as string });
+    dictInputs.value.push({
+      key: "",
+      translate: "",
+      id: crypto.randomUUID(),
+      moduleName: route.params.slug as string,
+    });
   };
 
-
   const saveDict = async (moduleName: string) => {
-    setLoading()
+    setLoading();
     try {
-  
-        await delay(500)
+      await delay(500);
 
-        await app.fillDictionary(dictInputs.value, userId, moduleName);
-        setSuccess()
+      await app.fillDictionary(dictInputs.value, userId, moduleName);
+      setSuccess();
 
-        toast.add({
-            severity: "success",
-            summary: "Успех",
-            detail: "Словарь успешно обновлен!",
-            life: 3000,
-            closable: false
-        })
-
-      
-    }
-    catch (error: any) {
-        setError(error.message)
-        toast.add({
-            severity: "error",
-            summary: "Ошибка",
-            detail: "Не удалось обновить словарь!",
-            life: 3000,
-        })
-    }
-    finally {
-        await delay(500)
-        resetStatus()
+      toast.add({
+        severity: "success",
+        summary: "Успех",
+        detail: "Словарь успешно обновлен!",
+        life: 3000,
+        closable: false,
+      });
+    } catch (error: any) {
+      setError(error.message);
+      toast.add({
+        severity: "error",
+        summary: "Ошибка",
+        detail: "Не удалось обновить словарь!",
+        life: 3000,
+      });
+    } finally {
+      await delay(500);
+      resetStatus();
     }
   };
 
   const deleteInputs = async (id: string) => {
-
-  
-    const itemToDelete = dictInputs.value.find((input) => input.id === id)
+    const itemToDelete = dictInputs.value.find((input) => input.id === id);
     if (itemToDelete) {
-      itemToDelete.isDeleting = true
-      await delay(1000)
+      itemToDelete.isDeleting = true;
+      await delay(1000);
 
+      dictInputs.value = dictInputs.value.filter((input) => input.id !== id);
+      itemToDelete.isDeleting = false;
 
-      dictInputs.value = dictInputs.value.filter((input) => input.id !== id)
-      itemToDelete.isDeleting = false
-
-   
-      const emptyFields = dictInputs.value.some(input => {
-        if(input.key === '' || input.translate === '') {
-          return true
+      const emptyFields = dictInputs.value.some((input) => {
+        if (input.key === "" || input.translate === "") {
+          return true;
         }
-      })
+      });
 
-      if(emptyFields) {
-        return
+      if (emptyFields) {
+        return;
+      } else {
+        saveDict(route.params.slug as string);
       }
-      else {
-        saveDict(route.params.slug as string)
-      }
-
-      
     }
-};
-
+  };
 
   return {
     dictInputs,
@@ -127,6 +135,6 @@ export const useDictForm = () => {
     deleteInputs,
     saveDict,
     key,
-    translate
-  }
+    translate,
+  };
 };

@@ -1,47 +1,40 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onMounted} from "vue";
 import Header from "./components/layout/Header.vue";
 import Layout from "./components/layout/Layout.vue";
 import { useModules } from "./composables/useModules";
-import { useFps } from '@vueuse/core'
+import { useFps } from "@vueuse/core";
 import { useAuth } from "./composables/app/useAuth";
 import { useRoute } from "vue-router";
 
-useModules()
-const {authMe, checkIsAuth} = useAuth()
-const route = useRoute()
-const fps = useFps()
+useModules();
+const { authMe, checkIsAuth } = useAuth();
+const route = useRoute();
+const fps = useFps();
+
 
 
 onMounted(() => {
-
-  checkIsAuth()
-  authMe()
-})
-
+  checkIsAuth();
+  authMe();
+});
 </script>
 
 <template>
   <Layout>
     <template #header>
-      <div v-if="fps" :style="{paddingLeft: '10px'}">FPS: {{ fps }}</div>
+      <div v-if="fps" :style="{ paddingLeft: '10px' }">FPS: {{ fps }}</div>
       <Header />
     </template>
 
     <template #sidebar-nav>
-        <Sidebar />
+      <Sidebar />
     </template>
 
-
     <template #content>
-  
-     
+      
       <RouterView #default="{ Component }">
-        <Transition
-          v-if="!(route?.name === 'signIn')"
-          name="fade"
-          mode="out-in"
-        >
+        <Transition v-if="!(route?.name === 'signIn')" name="fade" mode="out-in">
           <component :is="Component" />
         </Transition>
         <component v-else :is="Component" />
@@ -51,7 +44,6 @@ onMounted(() => {
 </template>
 
 <style>
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
@@ -61,5 +53,4 @@ onMounted(() => {
 .fade-leave-to {
   opacity: 0;
 }
-
 </style>

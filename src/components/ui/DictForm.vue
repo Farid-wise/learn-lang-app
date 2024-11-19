@@ -21,7 +21,6 @@ const {
   <div>
     <Toast />
 
-  
 
     <div class="mb-3 flex gap-3 align-items-center">
       <Button @click="addInputs">Добавить поля</Button>

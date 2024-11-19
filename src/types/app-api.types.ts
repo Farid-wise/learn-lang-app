@@ -26,6 +26,8 @@ export interface LangAppAPITypeV2 {
   
 }
 
+export type LangAppAPITypeV3 = [LangAppAPITypeV2]
+
 
 // const modules: LangAppAPITypeV2 = {
 //   "122233": [
@@ -42,28 +44,3 @@ export interface LangAppAPITypeV2 {
 // const key = "122233"
 // export const getModule = (key: string) => modules[key]
 // const modulesData = getModule(key)
-
-// const app: LangAppAPIType = {
-//   module: [
-//     {
-//       "en-ru": {
-//         dic: [
-//           { id: "1", f: "Привет" },
-//           { id: "2", world: "мир" },
-//         ],
-//         description: "Изучение английского языка",
-//         created_at: Date.now(),
-//         id: crypto.randomUUID(),
-//         moduleName: "English",
-//       },
-//       "ru-en": {
-//         dic: [],
-//         description: "Изучение русского языка",
-//         created_at: Date.now(),
-//         moduleName: "Russian",
-//         id: crypto.randomUUID(),
-//       },
-//     },
-//   ]
-// };
-
