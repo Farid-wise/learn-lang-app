@@ -29,6 +29,8 @@ import axios from "axios";
 
 */
 
+
+
 class LangAppAPI extends BaseAPI {
  
 
@@ -73,8 +75,8 @@ class LangAppAPI extends BaseAPI {
     return Promise.resolve(null);
   }
   async create<T = any>({ url, data, source }: HandlersType<T>) {
-    if (typeof source === "string") {
-      if (source === "localstorage") {
+    switch (typeof source === "string" ? source : source.value) {
+      case "localstorage": {
         const { set } = useLS();
 
         try {
@@ -82,18 +84,14 @@ class LangAppAPI extends BaseAPI {
         } catch (error) {
           console.log(error);
         }
+        break;
       }
-    } else {
-      if (source.value === "localstorage") {
-        const { set } = useLS();
-
-        try {
-          await set<T>("dict", data);
-        } catch (error) {
-          console.log(error);
-        }
+      case "firebase": {
+        const response = await axios.post<T>(url as string, data as T);
+        console.log(response.data);
       }
     }
+  
   }
 }
 

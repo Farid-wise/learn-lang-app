@@ -36,10 +36,12 @@ export const useCreateModule = () => {
   onMounted(async () => {
     source.value = getSync<"localstorage" | "firebase">("storage") ?? "localstorage";
 
-    if(await langAppApi.get<LangAppAPITypeV2>({source: source.value}) === null){
-      await langAppApi.create<LangAppAPITypeV2>({source: source.value, data: {
-        [userId.value]: []
-      }});
+    if(await langAppApi.get<LangAppAPITypeV2>({ url: 'https://52644fae60d09042.mokky.dev/learn-lang-modules', source: source.value}) === null){
+      await langAppApi.create<LangAppAPITypeV2>({
+        source: source.value,
+        url: 'https://52644fae60d09042.mokky.dev/learn-lang-modules', 
+        data: { [userId.value]: [] }
+      });
     }
    
   });
@@ -57,8 +59,11 @@ export const useCreateModule = () => {
       createStatuses.value.isCreating = true;
       await delay(500);
       const currentData = await langAppApi.get<LangAppAPITypeV2>({
+        url: 'https://52644fae60d09042.mokky.dev/learn-lang-modules',
         source: source.value,
       });
+
+    
 
       if (currentData) {
         if (moduleExists(name.value, currentData[userId.value])) {
@@ -82,7 +87,9 @@ export const useCreateModule = () => {
 
 
         const prevData = !Object.keys(currentData).includes('') ? currentData : '';
+        console.log(prevData)
         await langAppApi.create<LangAppAPITypeV2>({
+          url: 'https://52644fae60d09042.mokky.dev/learn-lang-modules',
           source: source.value,
           data: {
             ...prevData,

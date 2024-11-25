@@ -50,9 +50,9 @@ export const useModules = () => {
           source: 'firebase',
           url: 'https://52644fae60d09042.mokky.dev/learn-lang-modules'
         })
-        if(data){
+        if(data?.length){
           console.log(data)
-          await app.addModule(userId.value, data[0][userId.value])
+          await app.addModule(userId?.value, data[0][userId.value])
           await delay(1000)
           setSuccess()
         }

@@ -36,7 +36,7 @@ export const useModule = (modules: Module[]) => {
   const app = useAppStore();
   const {userId} = storeToRefs(useAuthStore())
   const toast = useToast();
-  const dialog = useDialog()
+  //const dialog = useDialog()
 
   const isNameError = ref<boolean>(false);
   const isNameUpdating = ref<boolean>(false);
