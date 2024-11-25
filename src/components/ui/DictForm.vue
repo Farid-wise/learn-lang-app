@@ -10,22 +10,18 @@ const {
   saveDict,
   route,
   key,
-  translate
+  translate,
 } = useDictForm();
-
-
-
 </script>
 
 <template>
   <div>
     <Toast />
 
-
     <div class="mb-3 flex gap-3 align-items-center">
       <Button @click="addInputs">Добавить поля</Button>
       <Button
-        :disabled="statuses === Statuses.LOADING || !key.length || !translate.length"  
+        :disabled="statuses === Statuses.LOADING || !key.length || !translate.length"
         :loading="statuses === Statuses.LOADING"
         @click="saveDict(route.params.slug as string)"
         :label="statuses === Statuses.LOADING ? 'Сохранение...' : 'Сохранить'"
@@ -35,15 +31,22 @@ const {
 
     <template v-for="(input, index) in dictInputs" :key="input.id">
       <InputGroup :class="{ 'deleting-input': input.isDeleting }" class="mb-3">
-        <InputText @change="key = input.key" v-model.trim="input.key" placeholder="Введите термин" />
-        <InputText @change="translate = input.translate" v-model.trim="input.translate" placeholder="Добавьте перевод" />
+        <InputText
+          @change="key = input.key"
+          v-model.trim="input.key"
+          placeholder="Введите термин"
+        />
+        <InputText
+          @change="translate = input.translate"
+          v-model.trim="input.translate"
+          placeholder="Добавьте перевод"
+        />
         <Button
           :disabled="index === 0"
           @click="deleteInputs(input.id)"
           :icon="'pi pi-trash'"
           severity="danger"
         />
- 
       </InputGroup>
     </template>
   </div>

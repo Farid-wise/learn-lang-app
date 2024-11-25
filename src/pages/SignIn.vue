@@ -10,8 +10,7 @@ const { authViaGoogle } = useGoogleAuth();
       <h1 class="text-2xl font-bold mb-6 text-center">Пожалуйста авторизуйтесь перед использованием</h1>
       <Button
         @click="authViaGoogle"
-        :style="{ width: '50%', margin: '0 auto' }"
-        class="justify-content-center gap-3 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+        class="justify-content-center signin-button gap-3 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
       >
         Войти через Google
         <i class="pi pi-google"></i>
@@ -27,5 +26,10 @@ const { authViaGoogle } = useGoogleAuth();
         justify-content: center;
       
     }
+
+  button.signin-button  {
+    min-width: 50%;
+    margin: 0 auto;
+  }
 
 </style>

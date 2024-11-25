@@ -27,6 +27,7 @@ declare module 'vue' {
     OverlayPanel: typeof import('primevue/overlaypanel')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchOutput: typeof import('./src/components/features/SearchOutput.vue')['default']
     Sidebar: typeof import('./src/components/layout/Sidebar.vue')['default']
     Spinner: typeof import('./src/components/features/Spinner.vue')['default']
     Textarea: typeof import('primevue/textarea')['default']

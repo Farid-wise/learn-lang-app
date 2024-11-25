@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useToggleSideBarStore } from "@/stores/navigaton";
 import Options from "../ui/Options.vue";
+import { useModulesSearch } from "@/composables/useModulesSearch";
+import SearchOutput from "../features/SearchOutput.vue";
 
 const store = useToggleSideBarStore();
-
+const { target, foundModules, searchValue } = useModulesSearch();
 </script>
 
 <template>
@@ -20,15 +22,20 @@ const store = useToggleSideBarStore();
       <div id="app-search">
         <IconField iconPosition="left">
           <InputIcon class="pi pi-search"> </InputIcon>
-          <InputText type="search" placeholder="Поиск модулей" />
+          <InputText
+            v-model.trim="searchValue"
+            type="search"
+            placeholder="Поиск модулей"
+          />
         </IconField>
+
+        <Transition name="fade" mode="out-in">
+          <SearchOutput ref="target" :foundModules="foundModules" v-show="searchValue.length" />
+        </Transition>
       </div>
 
       <div id="module-create">
-      
-
         <Options />
-        
       </div>
     </nav>
   </header>
@@ -41,6 +48,7 @@ header {
 #app-search {
   width: 40%;
   margin: 0 auto;
+  position: relative;
 
   & > div {
     width: 100%;
@@ -54,6 +62,4 @@ header {
     outline-color: #58638021;
   }
 }
-
-
 </style>
