@@ -6,9 +6,13 @@ import SearchOutput from "../features/SearchOutput.vue";
 
 const store = useToggleSideBarStore();
 const { target, foundModules, searchValue } = useModulesSearch();
+
+
 </script>
 
 <template>
+
+ 
   <header class="w-full shadow-md">
     <nav class="flex justify-content-between items-center">
       <div id="menu">

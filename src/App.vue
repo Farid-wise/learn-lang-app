@@ -13,10 +13,13 @@ const route = useRoute();
 const fps = useFps();
 
 
-
 onMounted(() => {
   checkIsAuth();
   authMe();
+
+
+  
+
 });
 </script>
 
@@ -25,6 +28,8 @@ onMounted(() => {
     <template #header>
       <div v-if="fps" :style="{ paddingLeft: '10px' }">FPS: {{ fps }}</div>
       <Header />
+
+      
     </template>
 
     <template #sidebar-nav>
