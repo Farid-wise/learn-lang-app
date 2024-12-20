@@ -21,6 +21,10 @@ const vitePWA = VitePWA({
   outDir: 'dist',
   manifest: {
     name: 'LangApp',
+    start_url: '/',
+    screenshots: [
+      
+    ],
     short_name: 'LangApp',
     description: 'App for learning languages',
     theme_color: '#ffffff',

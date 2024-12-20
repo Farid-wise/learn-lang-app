@@ -9,6 +9,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
+    Column: typeof import('primevue/column')['default']
+    ConfirmPopup: typeof import('primevue/confirmpopup')['default']
+    DataTable: typeof import('primevue/datatable')['default']
     Dialog: typeof import('primevue/dialog')['default']
     DictForm: typeof import('./src/components/ui/DictForm.vue')['default']
     Header: typeof import('./src/components/layout/Header.vue')['default']
