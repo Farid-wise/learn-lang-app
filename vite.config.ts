@@ -10,10 +10,26 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 import Components from 'unplugin-vue-components/vite';
 import {PrimeVueResolver} from '@primevue/auto-import-resolver';
+import {VitePWA} from 'vite-plugin-pwa'
 
-//@ts-ignore
 
-// https://vitejs.dev/config/
+
+
+
+const vitePWA = VitePWA({
+  registerType: 'autoUpdate',
+  outDir: 'dist',
+  manifest: {
+    name: 'LangApp',
+    short_name: 'LangApp',
+    description: 'App for learning languages',
+    theme_color: '#ffffff',
+    icons: [
+      {src: '/web-app-manifest-192x192.png', sizes: '192x192', type: 'image/png'},
+      {src: '/web-app-manifest-512x512.png', sizes: '512x512', type: 'image/png'},
+    ]
+  }
+})
 export default defineConfig({
   plugins: [
     vue({
@@ -24,6 +40,7 @@ export default defineConfig({
     vueJsx(),
     vueDevTools(),
     Components({resolvers: [PrimeVueResolver()]}),
+    vitePWA
   ],
   resolve: {
     alias: {
