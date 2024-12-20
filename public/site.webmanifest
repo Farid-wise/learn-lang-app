@@ -1,6 +1,6 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "name": "Learn Lang App",
+  "short_name": "Learn Lang App",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
