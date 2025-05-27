@@ -29,6 +29,7 @@ declare module 'vue' {
     SearchOutput: typeof import('./src/components/features/SearchOutput.vue')['default']
     Sidebar: typeof import('./src/components/layout/Sidebar.vue')['default']
     Spinner: typeof import('./src/components/features/Spinner.vue')['default']
+    Test: typeof import('./src/components/ui/Test.vue')['default']
     Textarea: typeof import('primevue/textarea')['default']
     Toast: typeof import('primevue/toast')['default']
   }

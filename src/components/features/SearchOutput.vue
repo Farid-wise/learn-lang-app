@@ -11,11 +11,11 @@ const router = useRouter()
     <h2 class="text-xl font-semibold text-gray-800 mb-4">Результат поиска:</h2>
     <ul class="divide-y divide-gray-200">
       <template v-if="foundModules.length">
-        <a
+        <RouterLink
           v-for="module in foundModules"
           :key="module.id"
           target="_blank"
-          :href="`/module/${module.moduleName}`"
+          :to="`/module/${module.moduleName}`"
           class="block py-2"
         >
           <h3>
@@ -27,7 +27,7 @@ const router = useRouter()
           <p class="text-gray-600">
             <span>{{ module.description }}</span>
           </p>
-        </a>
+        </RouterLink>
       </template>
       <template v-else>
         <p class="text-gray-600">Ничего не нашлось</p>

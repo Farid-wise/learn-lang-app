@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted} from "vue";
+import { onMounted, computed } from "vue";
 import Header from "./components/layout/Header.vue";
 import Layout from "./components/layout/Layout.vue";
 import { useModules } from "./composables/useModules";
@@ -8,28 +8,27 @@ import { useAuth } from "./composables/app/useAuth";
 import { useRoute } from "vue-router";
 
 useModules();
-const { authMe, checkIsAuth } = useAuth();
+const { authMe } = useAuth();
 const route = useRoute();
 const fps = useFps();
 
+const isDev = computed(() => import.meta.env.DEV);
 
 onMounted(() => {
-  checkIsAuth();
   authMe();
-
-
-  
-
 });
 </script>
 
 <template>
   <Layout>
     <template #header>
-      <div v-if="fps" :style="{ paddingLeft: '10px' }">FPS: {{ fps }}</div>
+      <div
+        v-if="isDev && fps"
+        :style="{ paddingLeft: '10px', paddingTop: '5px', fontSize: '10px' }"
+      >
+        FPS: {{ fps }}
+      </div>
       <Header />
-
-      
     </template>
 
     <template #sidebar-nav>
@@ -37,7 +36,6 @@ onMounted(() => {
     </template>
 
     <template #content>
-      
       <RouterView #default="{ Component }">
         <Transition v-if="!(route?.name === 'signIn')" name="fade" mode="out-in">
           <component :is="Component" />

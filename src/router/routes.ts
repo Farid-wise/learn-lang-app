@@ -1,3 +1,5 @@
+import type { RouterOptions } from "vue-router";
+
 export const routes = [
     {
         path: "/",
@@ -30,6 +32,8 @@ export const routes = [
         name: "pass-test",
         component: () => import("../pages/PassTest.vue"),
     },
+
+
     {
         path: "/create-module",
         meta: {
@@ -93,4 +97,4 @@ export const routes = [
         },
         component: () => import("../pages/Dictionary.vue"),
     },
-]
+] as RouterOptions['routes']
