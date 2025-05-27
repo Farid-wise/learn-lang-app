@@ -34,7 +34,7 @@ defineProps<{ module: Module }>();
 
 <style scoped lang="scss">
 .module-cards {
-  width: 40%;
+  max-width: 450px;
   height: 220px;
   transition: 0.3s all ease;
 }

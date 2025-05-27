@@ -11,25 +11,34 @@ import { stripTags } from "@/utils/strip-tags";
 const modulesStatuses = useModules();
 
 const { appModules } = storeToRefs(useAppStore());
-const {userId} = storeToRefs(useAuthStore())
-
-
-
+const { userId } = storeToRefs(useAuthStore());
 </script>
 
 <template>
   <section>
     <h1 class="text-2xl font-bold mb-4">Текущие модули</h1>
 
-
     <Spinner v-if="modulesStatuses.statuses.value === Statuses.LOADING" />
-    <template v-else-if="appModules[userId]?.length && modulesStatuses.statuses.value === Statuses.IDLE">
+    <template
+      v-else-if="
+        appModules[userId]?.length && modulesStatuses.statuses.value === Statuses.IDLE
+      "
+    >
       <div class="flex gap-3 pt-5 align-content-center flex-wrap">
-        <ModuleCard :title="stripTags(module.description)" v-for="(module, i) in appModules[userId]" :key="module.id" :module="module" />
+        <ModuleCard
+          :title="stripTags(module.description)"
+          v-for="(module, i) in appModules[userId]"
+          :key="module.id"
+          :module="module"
+        />
       </div>
     </template>
 
-    <template v-if="!appModules[userId]?.length && modulesStatuses.statuses.value === Statuses.IDLE">
+    <template
+      v-if="
+        !appModules[userId]?.length && modulesStatuses.statuses.value === Statuses.IDLE
+      "
+    >
       <Message severity="warn">Модули не созданы</Message>
     </template>
   </section>
