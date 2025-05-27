@@ -36,7 +36,7 @@ const exportCSV = () => {
       columnResizeMode="expand"
       :rowsPerPageOptions="[5, 10, 20, 50]"
       stripedRows
-      showGridlines
+      :showGridlines="true"
       :value="foundDict"
       tableStyle="min-width: 50rem"
     >
@@ -45,8 +45,8 @@ const exportCSV = () => {
           <Button icon="pi pi-external-link" label="Экспортировать CSV" @click="exportCSV()" />
         </div>
       </template>
-      <Column sortable field="key" header="Значение"></Column>
-      <Column sortable field="translate" header="Перевод"></Column>
+      <Column :showFilterMenu="true" sortable field="key" header="Значение"></Column>
+      <Column :showFilterMenu="true"  sortable field="translate" header="Перевод"></Column>
     </DataTable>
   </section>
 </template>

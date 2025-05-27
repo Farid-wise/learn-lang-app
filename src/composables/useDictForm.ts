@@ -85,7 +85,7 @@ export const useDictForm = () => {
       toast.add({
         severity: "success",
         summary: "Успех",
-        detail: "Словарь успешно обновлен!",
+        detail: "Словарь успешно обновлен! Загляните в словарь",
         life: 3000,
         closable: false,
       });

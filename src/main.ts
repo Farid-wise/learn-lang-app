@@ -17,6 +17,7 @@ import AnimateOnScroll from 'primevue/animateonscroll'
 import Tooltip from 'primevue/tooltip'
 import { vAutofocus } from './directives/v-autofocus'
 import DialogService from 'primevue/dialogservice'
+import { checkAppAuth } from './plugins/auth.global'
 
 
 export const fireBaseInst = initFireBaseApp();
@@ -24,6 +25,8 @@ const app = createApp(App);
 
 
 app.use(router)
+
+
 
 app.use(ToastServie);
 app.use(DialogService);
@@ -33,8 +36,9 @@ app.use(PrimeVue, {
 });
 
 app.use(createPinia())
+app.use(checkAppAuth())
 
-app.use(welcomePlugin)
+
 
 app.directive('animateonscroll', AnimateOnScroll);
 app.directive('tooltip', Tooltip);
