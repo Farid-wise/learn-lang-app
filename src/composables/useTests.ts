@@ -37,6 +37,8 @@ export const useTests = (moduleName?: string) => {
     focusInput();
   }
 
+  
+
   const shuffledQuestions = computed(() => {
     if (!currentUserModuleDictionary.value) return [];
     const questions = [...currentUserModuleDictionary.value];
