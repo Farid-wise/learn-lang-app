@@ -95,10 +95,13 @@ export const useSettings = () => {
           acceptIcon: "pi pi-check",
           blockScroll: true,
           accept: () => {
-            remove("dict");
+           
             app.clearModules(userId, async () => {
-             
+              remove("dict");
+              remove('isPresetsInited')
+              remove('isBasePresetsModalVisible')
               await router.push({ name: "home" });
+              document.location.reload()
     
             });
            
