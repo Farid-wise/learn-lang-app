@@ -7,11 +7,15 @@ import { storeToRefs } from "pinia";
 import { Statuses } from "@/composables/service/useStatuses";
 import { useAuthStore } from "@/stores/auth";
 import { stripTags } from "@/utils/strip-tags";
+import { inject, type Ref } from "vue";
+import type { PresetsCofig } from '../plugins/init-base-presets';
 
 const modulesStatuses = useModules();
 
 const { appModules } = storeToRefs(useAppStore());
 const { userId } = storeToRefs(useAuthStore());
+
+const presetsConfig = inject<PresetsCofig>('presetsConfig')!
 </script>
 
 <template>
@@ -41,6 +45,32 @@ const { userId } = storeToRefs(useAuthStore());
     >
       <Message severity="warn">Модули не созданы</Message>
     </template>
+
+    <Dialog
+      v-model:visible="presetsConfig.isBasePresetsModalVisible.value"
+      modal
+      header="Хотите использовать предустановленные пресеты модулей? "
+      :style="{ width: '50rem' }"
+    >
+      <span :style="{fontWeight: 'bold'}" class="p-text-secondary block mb-5">EN-RU и RU-EN </span>
+
+      <span class="p-text-secondary block mb-5">Сделайте подтверждение</span>
+
+      <div class="flex justify-content-end gap-2">
+        <Button
+          type="button"
+          label="Да я хотел / хотела бы "
+          severity="secondary"
+          @click="presetsConfig?.handlePresetInited(true)"
+        ></Button>
+        <Button
+          type="button"
+          label="Отменить"
+          severity="secondary"
+          @click="presetsConfig?.handlePresetInited(false)"
+        ></Button>
+      </div>
+    </Dialog>
   </section>
 </template>
 
