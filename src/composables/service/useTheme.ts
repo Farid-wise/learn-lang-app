@@ -36,6 +36,15 @@ export const useTheme = (): { theme: Ref<'aura-light-blue' | 'aura-dark-blue'>; 
     })
 
     watch(() => theme.value, () => {
+
+        if(theme.value === 'aura-light-blue'){
+            document.documentElement.style.backgroundImage = 'url("/bg-3.svg")'
+        }
+        else {
+            document.documentElement.style.backgroundImage = 'url("/bg-dark-4.svg")'
+        }
+
+
         document.documentElement.setAttribute('data-theme', theme.value)
         link.href = computedThemeStyle.value;
         link.id = theme.value

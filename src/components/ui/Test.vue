@@ -88,6 +88,10 @@ const {
   font-family: Arial, sans-serif;
 }
 
+p, h3 {
+  color: black !important;
+}
+
 .progress-bar {
   width: 100%;
   height: 10px;
@@ -156,5 +160,10 @@ button {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+}
+
+
+h2 {
+  color: black
 }
 </style>

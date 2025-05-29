@@ -11,7 +11,6 @@ import { computed, ref, type Ref } from 'vue';
 const themeStore = useThemeStore()
 const {isOpen} = storeToRefs(useToggleSideBarStore());
 
-const linkColor = computed(() => themeStore.theme === 'aura-light-blue' ? '#171a23' : '#586380');
 const {appModules} = storeToRefs(useAppStore())
 const {userId} = storeToRefs(useAuthStore())
 
@@ -31,7 +30,7 @@ const links = ref<Array<{label: string, icon: string, to: string, disabled?: Ref
   },
 
   {
-    label: "Tест",
+    label: "Тест",
     icon: "pi pi-fw pi-check",
     to: "/pass-test",
     disabled: computed(() => !appModules.value[userId.value]?.some((module) => module.dic?.length)),
@@ -66,8 +65,8 @@ const links = ref<Array<{label: string, icon: string, to: string, disabled?: Ref
 <style scoped>
 aside {
   width: 30%;
+  border-right: 1px solid lightslategray;
   padding: 15px 15px;
-  min-height: 100vh;
   transition: 0.3s all ease;
 }
 
@@ -90,7 +89,7 @@ li {
 }
 
 a {
-  color: v-bind("linkColor");
+  color: white;
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 600;

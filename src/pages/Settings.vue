@@ -31,7 +31,7 @@ const {userId} = storeToRefs(useAuthStore())
 
 
       <div class="mb-4">
-        <label for="theme" class="block text-sm font-medium text-gray-700">Тема</label>
+        <label for="theme" class="block text-sm font-medium text-white">Тема</label>
         <Dropdown
           id="theme"
           v-model="themeOption"
@@ -44,7 +44,7 @@ const {userId} = storeToRefs(useAuthStore())
       </div>
 
       <div class="mb-4">
-        <label for="storage" class="block text-sm font-medium text-gray-700"
+        <label for="storage" class="block text-sm font-medium text-white"
           >Хранилище</label
         >
 

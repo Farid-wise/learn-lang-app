@@ -1,0 +1,49 @@
+<svg width="100%" height="100%" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3a4a7b" />
+      <stop offset="100%" stop-color="#1a263f" />
+    </linearGradient>
+    
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="15" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  
+  <!-- Фон -->
+  <rect width="100%" height="100%" fill="url(#bgGradient)"/>
+  
+  <!-- Абстрактные волны -->
+  <path d="M0,450 Q150,400 300,450 T600,400 T900,500 T1200,400" 
+        stroke="#4a5c8a" fill="none" stroke-width="2" opacity="0.6"/>
+  <path d="M0,600 Q150,550 300,600 T600,550 T900,650 T1200,550" 
+        stroke="#5d76b5" fill="none" stroke-width="3" opacity="0.4"/>
+  
+  <!-- Глобус -->
+  <circle cx="900" cy="300" r="120" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.7">
+    <animateTransform attributeName="transform" type="rotate" from="0 900 300" to="360 900 300" dur="120s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="900" cy="300" r="100" fill="none" stroke="#e8f4f8" stroke-width="1.5" stroke-dasharray="5,5" opacity="0.5"/>
+  
+  <!-- Символы разных языков (полупрозрачные) -->
+  <text x="200" y="200" font-family="Arial" font-size="24" fill="white" opacity="0.3">あ</text>
+  <text x="250" y="180" font-family="Arial" font-size="28" fill="white" opacity="0.3">α</text>
+  <text x="150" y="250" font-family="Arial" font-size="30" fill="white" opacity="0.3">Б</text>
+  <text x="1000" y="500" font-family="Arial" font-size="26" fill="white" opacity="0.3">字</text>
+  <text x="1100" y="550" font-family="Arial" font-size="22" fill="white" opacity="0.3">ع</text>
+  
+  <!-- Книги -->
+  <rect x="100" y="500" width="60" height="15" fill="#f5e5c0" opacity="0.8" rx="2"/>
+  <rect x="105" y="485" width="50" height="15" fill="#e8d5a8" opacity="0.8" rx="2"/>
+  <rect x="110" y="470" width="40" height="15" fill="#d9c291" opacity="0.8" rx="2"/>
+  
+  <!-- Декоративные точки -->
+  <circle cx="400" cy="700" r="8" fill="#ffd700" opacity="0.6" filter="url(#softGlow)"/>
+  <circle cx="500" cy="100" r="5" fill="#70c1b3" opacity="0.6"/>
+  <circle cx="800" cy="650" r="6" fill="#f25f5c" opacity="0.6"/>
+  
+  <!-- Абстрактные линии соединения -->
+  <path d="M400,200 Q500,250 600,200 T800,250" 
+        stroke="#ffffff" fill="none" stroke-width="1" opacity="0.3" stroke-dasharray="3,3"/>
+</svg>

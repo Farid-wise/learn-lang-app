@@ -62,8 +62,10 @@ header {
     width: 100%;
     background-color: #58638021;
     border: none;
+    color: white;
     text-overflow: ellipsis;
-    outline-color: #58638021;
+    outline: 2px solid #58638021;
+   
   }
 }
 </style>

@@ -66,7 +66,7 @@ export const useSettings = () => {
 
       if (storageOption.value.name === "Локальное хранилище") {
         set("storage", "localstorage");
-        app.appModules = {};
+      
       } else {
         set("storage", "firebase");
         app.appModules = {};
