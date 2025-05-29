@@ -2,15 +2,16 @@ import { useLS } from "@/composables/service/useLS";
 import type { Dictionary, LangAppAPIType, LangAppAPITypeV2, Module } from "@/types/app-api.types";
 import { delay } from "@/utils/delay";
 import { defineStore } from "pinia";
-import { ref, toValue, type Ref } from "vue";
+import { ref, toValue, watch, type Ref } from "vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "./auth";
 
 
 type UpdateModuleTypes = { name?: string; description?: string }
 
 export const useAppStore = defineStore("app", () => {
   const appModules = ref<LangAppAPITypeV2>({});
-  const { set } = useLS();
+  const { set, remove } = useLS();
   const router = useRouter();
 
   /**
@@ -77,6 +78,8 @@ export const useAppStore = defineStore("app", () => {
 
     await set<LangAppAPITypeV2>("dict", appModules.value);
   }
+
+
 
   return {
     appModules,

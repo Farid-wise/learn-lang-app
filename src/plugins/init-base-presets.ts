@@ -13,7 +13,7 @@ export interface PresetsCofig {
 }
 
 export const initBasePresets = (): Plugin => {
-  const { getSync, set } = useLS();
+  const { getSync, set, remove } = useLS();
   const { userId } = storeToRefs(useAuthStore());
   const appModules = useAppStore();
 
@@ -215,6 +215,9 @@ export const initBasePresets = (): Plugin => {
     },
   ];
 
+
+
+
   return {
     install(app, ...options) {
       app.provide<PresetsCofig>("presetsConfig", {
@@ -224,19 +227,24 @@ export const initBasePresets = (): Plugin => {
         isPresetsInited,
       });
 
+
       watch(isPresetsInited, () => {
         if (isPresetsInited.value) {
           appModules.addModule(userId.value, [
             {
               created_at: Date.now(),
-              dic: dicts.filter((dict) => dict.moduleName === "en-ru") as Dictionary[],
+              dic: dicts.filter(
+                (dict) => dict.moduleName === "en-ru"
+              ) as Dictionary[],
               description: "Изучение English",
               id: crypto.randomUUID(),
               moduleName: "en-ru",
             },
             {
               created_at: Date.now(),
-              dic: dicts.filter((dict) => dict.moduleName === "ru-en") as Dictionary[],
+              dic: dicts.filter(
+                (dict) => dict.moduleName === "ru-en"
+              ) as Dictionary[],
               description: "Изучение Русского",
               id: crypto.randomUUID(),
               moduleName: "ru-en",
@@ -249,4 +257,3 @@ export const initBasePresets = (): Plugin => {
     },
   };
 };
-

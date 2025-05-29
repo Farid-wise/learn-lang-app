@@ -115,10 +115,22 @@ export const useSettings = () => {
     }
   };
 
+
+  const resetPresets = () => {
+    app.clearModules(userId, async () => {
+      remove("dict");
+      remove('isPresetsInited')
+      remove('isBasePresetsModalVisible')
+      await router.push({ name: "home" });
+      document.location.reload()
+    });
+  }
+
   return {
     source,
     clearStorage,
     saveOptions,
+    resetPresets,
     isSaving,
     storageOption,
     themeOption,
