@@ -1,12 +1,10 @@
 <script lang="ts" setup>
-
 import { useSettings } from "@/composables/useSettings";
 import { useAppStore } from "@/stores/app";
 import { useAuthStore } from "@/stores/auth";
 import { storeToRefs } from "pinia";
 import Button from "primevue/button";
 import Dropdown from "primevue/dropdown";
-
 
 const {
   clearStorage,
@@ -16,11 +14,12 @@ const {
   storageOption,
   storage,
   saveOptions,
+  resetPresets,
   isSaving,
-} = useSettings()
+} = useSettings();
 
-const {appModules} = storeToRefs(useAppStore())
-const {userId} = storeToRefs(useAuthStore())
+const { appModules } = storeToRefs(useAppStore());
+const { userId } = storeToRefs(useAuthStore());
 </script>
 
 <template>
@@ -28,7 +27,6 @@ const {userId} = storeToRefs(useAuthStore())
     <Toast />
     <div :class="['settings-page p-4']">
       <h1 class="text-2xl font-bold mb-4">Настройки</h1>
-
 
       <div class="mb-4">
         <label for="theme" class="block text-sm font-medium text-white">Тема</label>
@@ -86,8 +84,20 @@ const {userId} = storeToRefs(useAuthStore())
           class="bg-indigo-600 border-none text-white px-4 py-2 rounded-md hover:bg-indigo-700"
         />
 
-        <ConfirmPopup/>
-        <Button :disabled="!appModules[userId]?.length" @click="clearStorage" severity="danger" label="Очистить хранилище" />
+        <ConfirmPopup />
+        <Button
+          :disabled="!appModules[userId]?.length"
+          @click="clearStorage"
+          severity="danger"
+          label="Очистить хранилище"
+        />
+        <Button
+          v-if="!appModules[userId]?.length"
+          @click="resetPresets"
+          severity="info"
+          class="bg-indigo-600 border-none text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+          label="Вернуть пресеты модулей"
+        />
       </div>
     </div>
   </section>
