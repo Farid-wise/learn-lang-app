@@ -1,6 +1,7 @@
 import { useLS } from "@/composables/service/useLS";
 import { useAppStore } from "@/stores/app";
 import { useAuthStore } from "@/stores/auth";
+import type { Dictionary } from "@/types/app-api.types";
 import { storeToRefs } from "pinia";
 import { ref, watch, type Plugin, type Ref } from "vue";
 
@@ -40,6 +41,180 @@ export const initBasePresets = (): Plugin => {
       handlePresetVisiblity();
     }
   };
+
+  const dicts = [
+    {
+      key: "hello",
+      moduleName: "en-ru",
+      translate: "Привет",
+    },
+    {
+      key: "world",
+      moduleName: "en-ru",
+      translate: "мир",
+    },
+    {
+      key: "sun",
+      moduleName: "en-ru",
+      translate: "солнце",
+    },
+    {
+      key: "moon",
+      moduleName: "en-ru",
+      translate: "луна",
+    },
+    {
+      key: "sky",
+      moduleName: "en-ru",
+      translate: "небо",
+    },
+    {
+      key: "earth",
+      moduleName: "en-ru",
+      translate: "земля",
+    },
+    {
+      key: "sea",
+      moduleName: "en-ru",
+      translate: "море",
+    },
+    {
+      key: "mountain",
+      moduleName: "en-ru",
+      translate: "гора",
+    },
+    {
+      key: "tree",
+      moduleName: "en-ru",
+      translate: "дерево",
+    },
+    {
+      key: "house",
+      moduleName: "en-ru",
+      translate: "дом",
+    },
+    {
+      key: "car",
+      moduleName: "en-ru",
+      translate: "машина",
+    },
+    {
+      key: "apple",
+      moduleName: "en-ru",
+      translate: "яблоко",
+    },
+    {
+      key: "water",
+      moduleName: "en-ru",
+      translate: "вода",
+    },
+    {
+      key: "fire",
+      moduleName: "en-ru",
+      translate: "огонь",
+    },
+    {
+      key: "snow",
+      moduleName: "en-ru",
+      translate: "снег",
+    },
+    {
+      key: "rain",
+      moduleName: "en-ru",
+      translate: "дождь",
+    },
+    {
+      key: "wind",
+      moduleName: "en-ru",
+      translate: "ветер",
+    },
+    {
+      key: "cloud",
+      moduleName: "en-ru",
+      translate: "облако",
+    },
+    {
+      key: "sun",
+      moduleName: "ru-en",
+      translate: "sun",
+    },
+    {
+      key: "moon",
+      moduleName: "ru-en",
+      translate: "moon",
+    },
+    {
+      key: "sky",
+      moduleName: "ru-en",
+      translate: "sky",
+    },
+    {
+      key: "earth",
+      moduleName: "ru-en",
+      translate: "earth",
+    },
+    {
+      key: "sea",
+      moduleName: "ru-en",
+      translate: "sea",
+    },
+    {
+      key: "mountain",
+      moduleName: "ru-en",
+      translate: "mountain",
+    },
+    {
+      key: "tree",
+      moduleName: "ru-en",
+      translate: "tree",
+    },
+    {
+      key: "house",
+      moduleName: "ru-en",
+      translate: "house",
+    },
+    {
+      key: "car",
+      moduleName: "ru-en",
+      translate: "car",
+    },
+    {
+      key: "apple",
+      moduleName: "ru-en",
+      translate: "apple",
+    },
+    {
+      key: "water",
+      moduleName: "ru-en",
+      translate: "water",
+    },
+    {
+      key: "fire",
+      moduleName: "ru-en",
+      translate: "fire",
+    },
+    {
+      key: "snow",
+      moduleName: "ru-en",
+      translate: "snow",
+    },
+    {
+      key: "rain",
+      moduleName: "ru-en",
+      translate: "rain",
+    },
+    {
+      key: "wind",
+      moduleName: "ru-en",
+      translate: "wind",
+    },
+    {
+      key: "cloud",
+      moduleName: "ru-en",
+      translate: "cloud",
+    },
+  ];
+
   return {
     install(app, ...options) {
       app.provide<PresetsCofig>("presetsConfig", {
@@ -54,40 +229,14 @@ export const initBasePresets = (): Plugin => {
           appModules.addModule(userId.value, [
             {
               created_at: Date.now(),
-              dic: [
-                {
-                  id: crypto.randomUUID(),
-                  key: "hello",
-                  moduleName: "en-ru",
-                  translate: "Привет",
-                },
-                {
-                  id: crypto.randomUUID(),
-                  key: "world",
-                  moduleName: "en-ru",
-                  translate: "мир",
-                },
-              ],
+              dic: dicts.filter((dict) => dict.moduleName === "en-ru") as Dictionary[],
               description: "Изучение English",
               id: crypto.randomUUID(),
               moduleName: "en-ru",
             },
             {
               created_at: Date.now(),
-              dic: [
-                {
-                  id: crypto.randomUUID(),
-                  key: "привет",
-                  moduleName: "ru-en",
-                  translate: "hello",
-                },
-                {
-                  id: crypto.randomUUID(),
-                  key: "мир",
-                  moduleName: "ru-en",
-                  translate: "world",
-                },
-              ],
+              dic: dicts.filter((dict) => dict.moduleName === "ru-en") as Dictionary[],
               description: "Изучение Русского",
               id: crypto.randomUUID(),
               moduleName: "ru-en",
@@ -100,3 +249,4 @@ export const initBasePresets = (): Plugin => {
     },
   };
 };
+

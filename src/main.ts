@@ -1,4 +1,4 @@
-import "./assets/main.css";
+import "./assets/main.scss";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.min.css";
 //import 'primevue/resources/themes/aura-light-blue/theme.css'

@@ -6,8 +6,6 @@ import { storeToRefs } from "pinia";
 
 const { appModules } = storeToRefs(useAppStore());
 const { userId } = storeToRefs(useAuthStore());
-
-
 </script>
 
 <template>
@@ -16,16 +14,34 @@ const { userId } = storeToRefs(useAuthStore());
 
     <ul class="space-y-4">
       <RouterLink
-        :title="'Описание -' + ' ' +  stripTags(module?.description)"
+        :title="'Описание -' + ' ' + stripTags(module?.description)"
         v-for="module in appModules[userId] || []"
         :key="module.id"
-        :to="module.dic.length ? { name: 'dictionary', params: { slug: module.moduleName } } : ''"
+        :to="
+          module.dic.length
+            ? { name: 'dictionary', params: { slug: module.moduleName } }
+            : ''
+        "
         :class="!module.dic.length ? 'pointer-events-none bg-gray-100' : 'bg-white'"
         class="block rounded py-2 mb-3 shadow-md rounded-lg"
       >
         <li class="px-3 flex justify-content-between align-items-center">
-          <h2 class="font-semibold text-lg">Словарь <i>{{ module.moduleName.toUpperCase() }}</i></h2>
-          <span :style="{borderRadius: '10px', color: '#fff'}" class="p-2 bg-blue-600">{{ module.dic.length }}</span>
+          <h2 class="font-semibold text-lg text-gray-600">
+            Словарь <i>{{ module.moduleName.toUpperCase() }}</i>
+          </h2>
+          <span
+            :style="{
+              borderRadius: '50%',
+              color: '#fff',
+              width: '30px',
+              height: '30px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }"
+            class="p-2 bg-blue-600"
+            >{{ module.dic.length }}</span
+          >
         </li>
       </RouterLink>
     </ul>
@@ -34,20 +50,17 @@ const { userId } = storeToRefs(useAuthStore());
 
 <style scoped lang="scss">
 a {
-  color: #0065F5;
+  color: #0065f5;
   transition: 0.3s all ease;
-  background-color: transparent ;
-  border: 1px solid rgb(233, 233, 239) ;
+  background-color: transparent;
+  border: 1px solid rgb(233, 233, 239);
   box-shadow: none;
 
   &:hover {
     transform: scale(1.01234);
-    transition: 0.3s all ease; 
+    transition: 0.3s all ease;
     will-change: contents;
   }
-
-
-
 }
 
 a.rounded {

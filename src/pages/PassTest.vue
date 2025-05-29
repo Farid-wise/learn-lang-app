@@ -19,7 +19,7 @@ const { userId, appModules, currentQuestionIndex } = useTests(moduleName.value);
        :title="!module.dic?.length ? 'Модуль пуст' : ''" 
         v-for="module in appModules[userId]"
         :key="module.id"
-        class="test-card shadow-lg p-4 border border-1 border-gray-200"
+        class="test-card shadow-lg  p-4 border border-1 border-gray-200"
       >
         <h2 class="text-lg font-bold mb-3 uppercase">{{ module.moduleName }}</h2>
         <Button :disabled="!module.dic?.length" @click="moduleName = module.moduleName" class="text-white">
@@ -41,5 +41,16 @@ const { userId, appModules, currentQuestionIndex } = useTests(moduleName.value);
 <style scoped>
 .test-card {
   border-radius: 10px;
+  transition: 0.3s all ease;
+  background-color: cornflowerblue;
+}
+
+button {
+  background-color: #2D3B62;
+}
+.test-card:hover {
+  transform: scale(1.01234);
+  transition: 0.3s all ease;
+  will-change: contents;
 }
 </style>
