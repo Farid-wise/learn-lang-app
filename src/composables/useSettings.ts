@@ -100,6 +100,7 @@ export const useSettings = () => {
               remove("dict");
               remove('isPresetsInited')
               remove('isBasePresetsModalVisible')
+              remove('user-results')
               await router.push({ name: "home" });
               document.location.reload()
     

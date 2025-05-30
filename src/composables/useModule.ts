@@ -9,6 +9,7 @@ import { onClickOutside } from "@vueuse/core";
 import type { Module } from "@/types/app-api.types";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/stores/auth";
+import { useTestsStore } from "@/stores/tests.store";
 
 /**
  * Provides reactive variables and functions for managing a module.
@@ -37,6 +38,8 @@ export const useModule = (modules: Module[]) => {
   const {userId} = storeToRefs(useAuthStore())
   const toast = useToast();
   //const dialog = useDialog()
+
+  const resultsStore = useTestsStore()
 
   const isNameError = ref<boolean>(false);
   const isNameUpdating = ref<boolean>(false);
@@ -121,6 +124,8 @@ export const useModule = (modules: Module[]) => {
 
     try {
       await app.removeModule(userId, slug);
+      resultsStore.removeResults(slug)
+
       
     } catch (error) {
       console.log(error);

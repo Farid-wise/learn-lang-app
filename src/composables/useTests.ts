@@ -1,11 +1,14 @@
 import { useAppStore } from "@/stores/app";
 import { useAuthStore } from "@/stores/auth";
+import { useTestsStore } from "@/stores/tests.store";
 import { storeToRefs } from "pinia";
-import { ref, computed, nextTick } from "vue";
+import { ref, computed, nextTick, watch, toValue } from "vue";
 
 export const useTests = (moduleName?: string) => {
   const { userId } = storeToRefs(useAuthStore());
   const { appModules } = storeToRefs(useAppStore());
+
+  const testsStore = useTestsStore();
 
   const currentUserModuleDictionary = computed(
     () =>
@@ -36,8 +39,6 @@ export const useTests = (moduleName?: string) => {
     testStarted.value = true;
     focusInput();
   }
-
-  
 
   const shuffledQuestions = computed(() => {
     if (!currentUserModuleDictionary.value) return [];
@@ -94,6 +95,24 @@ export const useTests = (moduleName?: string) => {
     correctAnswers.value = 0;
   }
 
+  watch(
+    [correctAnswers, currentQuestionIndex, currentUserModuleDictionary],
+    () => {
+      if (
+        currentQuestionIndex.value ===
+        currentUserModuleDictionary?.value?.length
+      ) {
+        testsStore.setResults({
+          [toValue(moduleName)!]: [
+            {
+              date: new Date().toLocaleString(),
+              score: `${Math.round((correctAnswers.value / currentUserModuleDictionary?.value?.length!) * 100)}%`,
+            }
+          ]
+        });
+      }
+    }
+  );
   return {
     moduleName,
     currentUserModuleDictionary,

@@ -21,7 +21,7 @@ const {
 } = useTests(props.moduleName);
 </script>
 <template>
-  <div class="overlay-test">
+  <div class="overlay-test px-3">
     <div class="test-container">
       <div v-if="!testStarted">
         <h2>Тест на перевод слов</h2>

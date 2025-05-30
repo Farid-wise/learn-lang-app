@@ -41,213 +41,50 @@ export const initBasePresets = (): Plugin => {
       handlePresetVisiblity();
     }
   };
-
-  const dicts = [
+  const dicts: Dictionary[] = [];
+  const modules = [
     {
-      id: crypto.randomUUID(),
-      key: "hello",
-      moduleName: "en-ru",
-      translate: "Привет",
+      name: "en-ru",
+      words: [
+        { key: "hello", translate: "Привет" },
+        { key: "world", translate: "мир" },
+        { key: "sun", translate: "солнце" },
+        { key: "moon", translate: "луна" },
+        { key: "sky", translate: "небо" },
+        { key: "earth", translate: "земля" },
+        { key: "sea", translate: "море" },
+        { key: "mountain", translate: "гора" },
+        { key: "tree", translate: "дерево" },
+        { key: "house", translate: "дом" },
+      ],
     },
     {
-      id: crypto.randomUUID(),
-      key: "world",
-      moduleName: "en-ru",
-      translate: "мир",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "sun",
-      moduleName: "en-ru",
-      translate: "солнце",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "moon",
-      moduleName: "en-ru",
-      translate: "луна",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "sky",
-      moduleName: "en-ru",
-      translate: "небо",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "earth",
-      moduleName: "en-ru",
-      translate: "земля",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "sea",
-      moduleName: "en-ru",
-      translate: "море",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "mountain",
-      moduleName: "en-ru",
-      translate: "гора",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "tree",
-      moduleName: "en-ru",
-      translate: "дерево",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "house",
-      moduleName: "en-ru",
-      translate: "дом",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "car",
-      moduleName: "en-ru",
-      translate: "машина",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "apple",
-      moduleName: "en-ru",
-      translate: "яблоко",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "water",
-      moduleName: "en-ru",
-      translate: "вода",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "fire",
-      moduleName: "en-ru",
-      translate: "огонь",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "snow",
-      moduleName: "en-ru",
-      translate: "снег",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "rain",
-      moduleName: "en-ru",
-      translate: "дождь",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "wind",
-      moduleName: "en-ru",
-      translate: "ветер",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "cloud",
-      moduleName: "en-ru",
-      translate: "облако",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "sun",
-      moduleName: "ru-en",
-      translate: "sun",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "moon",
-      moduleName: "ru-en",
-      translate: "moon",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "sky",
-      moduleName: "ru-en",
-      translate: "sky",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "earth",
-      moduleName: "ru-en",
-      translate: "earth",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "sea",
-      moduleName: "ru-en",
-      translate: "sea",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "mountain",
-      moduleName: "ru-en",
-      translate: "mountain",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "tree",
-      moduleName: "ru-en",
-      translate: "tree",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "house",
-      moduleName: "ru-en",
-      translate: "house",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "car",
-      moduleName: "ru-en",
-      translate: "car",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "apple",
-      moduleName: "ru-en",
-      translate: "apple",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "water",
-      moduleName: "ru-en",
-      translate: "water",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "fire",
-      moduleName: "ru-en",
-      translate: "fire",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "snow",
-      moduleName: "ru-en",
-      translate: "snow",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "rain",
-      moduleName: "ru-en",
-      translate: "rain",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "wind",
-      moduleName: "ru-en",
-      translate: "wind",
-    },
-    {
-      id: crypto.randomUUID(),
-      key: "cloud",
-      moduleName: "ru-en",
-      translate: "cloud",
+      name: "ru-en",
+      words: [
+        { key: "Привет", translate: "hello" },
+        { key: "мир", translate: "world" },
+        { key: "солнце", translate: "sun" },
+        { key: "луна", translate: "moon" },
+        { key: "небо", translate: "sky" },
+        { key: "земля", translate: "earth" },
+        { key: "море", translate: "sea" },
+        { key: "гора", translate: "mountain" },
+        { key: "дерево", translate: "tree" },
+        { key: "дом", translate: "house" },
+      ],
     },
   ];
+
+  for (const module of modules) {
+    for (const word of module.words) {
+      dicts.push({
+        id: crypto.randomUUID(),
+        key: word.key,
+        moduleName: module.name,
+        translate: word.translate,
+      });
+    }
+  }
 
 
 
