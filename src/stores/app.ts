@@ -1,13 +1,11 @@
 import { useLS } from "@/composables/service/useLS";
-import type { Dictionary, LangAppAPIType, LangAppAPITypeV2, Module } from "@/types/app-api.types";
+import type { Dictionary, LangAppAPITypeV2, Module } from "@/types/app-api.types";
 import { delay } from "@/utils/delay";
 import { defineStore } from "pinia";
-import { ref, toValue, watch, type Ref } from "vue";
+import { ref, toValue, type Ref } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "./auth";
 
-
-type UpdateModuleTypes = { name?: string; description?: string }
+type UpdateModuleTypes = { name?: string; description?: string };
 
 export const useAppStore = defineStore("app", () => {
   const appModules = ref<LangAppAPITypeV2>({});
@@ -19,40 +17,43 @@ export const useAppStore = defineStore("app", () => {
    * @param module The module to add
    */
   const addModule = async (userId: string | Ref<string>, module: Module[]) => {
-
- 
     appModules.value[toValue(userId)] = module;
-    
   };
 
-
-  const removeModule = async (userId: string | Ref<string>, moduleKey: string) => {
-    appModules.value[toValue(userId)] = appModules.value[toValue(userId)].filter(
-      (module) => module.moduleName !== moduleKey
-    );
+  const removeModule = async (
+    userId: string | Ref<string>,
+    moduleKey: string
+  ) => {
+    appModules.value[toValue(userId)] = appModules.value[
+      toValue(userId)
+    ].filter((module) => module.moduleName !== moduleKey);
 
     await set<LangAppAPITypeV2>("dict", appModules.value);
     await delay(500);
     await router.replace({ name: "home" });
   };
 
-
-  const updateModuleNameAndDescription = async (userId: string | Ref<string>, moduleKey: string, { name, description }: UpdateModuleTypes ) => {
-   
+  const updateModuleNameAndDescription = async (
+    userId: string | Ref<string>,
+    moduleKey: string,
+    { name, description }: UpdateModuleTypes
+  ) => {
     if (name) {
-      appModules.value[toValue(userId)] = appModules.value[toValue(userId)].map((module) =>
-        module.moduleName == moduleKey
-          ? { ...module, moduleName: name.trim() }
-          : module
+      appModules.value[toValue(userId)] = appModules.value[toValue(userId)].map(
+        (module) =>
+          module.moduleName == moduleKey
+            ? { ...module, moduleName: name.trim() }
+            : module
       );
       await set<LangAppAPITypeV2>("dict", appModules.value);
       await router.replace({ name: "module", params: { slug: name.trim() } });
     }
 
-    appModules.value[toValue(userId)]= appModules.value[toValue(userId)].map((module) =>
-      module.moduleName === moduleKey
-        ? { ...module, description: description!.trim() }
-        : module
+    appModules.value[toValue(userId)] = appModules.value[toValue(userId)].map(
+      (module) =>
+        module.moduleName === moduleKey
+          ? { ...module, description: description!.trim() }
+          : module
     );
     await set<LangAppAPITypeV2>("dict", appModules.value);
   };
@@ -66,20 +67,20 @@ export const useAppStore = defineStore("app", () => {
     callback();
   };
 
-  const fillDictionary = async (dict: Array<Dictionary>, userId: string | Ref<string>, moduleName: string) => {
+  const fillDictionary = async (
+    dict: Array<Dictionary>,
+    userId: string | Ref<string>,
+    moduleName: string
+  ) => {
     appModules.value = {
       ...appModules.value,
       [toValue(userId)]: appModules.value[toValue(userId)].map((module) =>
-        module.moduleName === moduleName
-          ? { ...module, dic: dict }
-          : module
+        module.moduleName === moduleName ? { ...module, dic: dict } : module
       ),
-    }
+    };
 
     await set<LangAppAPITypeV2>("dict", appModules.value);
-  }
-
-
+  };
 
   return {
     appModules,

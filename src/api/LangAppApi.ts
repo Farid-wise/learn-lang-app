@@ -49,7 +49,7 @@ class LangAppAPI extends BaseAPI {
           }
           break;
         }
-        case "firebase": {
+        case "cloud": {
       
           const {data} = await axios.get<T>(url as string)
           return Promise.resolve(data)
@@ -66,7 +66,7 @@ class LangAppAPI extends BaseAPI {
             console.log(error);
           }
           break;
-        case "firebase":
+        case "cloud":
           const { data } = await axios.get<T>(url as string);
           return Promise.resolve(data);
       }
@@ -86,7 +86,7 @@ class LangAppAPI extends BaseAPI {
         }
         break;
       }
-      case "firebase": {
+      case "cloud": {
         const response = await axios.post<T>(url as string, data as T);
         console.log(response.data);
       }

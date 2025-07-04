@@ -26,7 +26,7 @@ export interface LangAppAPITypeV2 {
   
 }
 
-export type LangAppAPITypeV3 = [LangAppAPITypeV2]
+export type LangAppAPITypeV3 = LangAppAPITypeV2
 
 
 // const modules: LangAppAPITypeV2 = {

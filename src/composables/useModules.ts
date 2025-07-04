@@ -7,6 +7,7 @@ import { useStatuses } from "./service/useStatuses";
 import { delay } from "@/utils/delay";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/stores/auth";
+import { API_URL } from "@/api/config/config";
 
 /**
  * This function fetches modules from local storage or firebase and adds them to the app store.
@@ -16,6 +17,8 @@ export const useModules = () => {
   const app = useAppStore()
   const {userId} = storeToRefs(useAuthStore())
   const {statuses, setLoading, resetStatus, setError, setSuccess} = useStatuses()
+
+  
  
   onMounted(async () => {
    
@@ -45,16 +48,21 @@ export const useModules = () => {
        
       }
       else {
-        console.log('firebase')
+        console.log('Cloud storage inited...')
         const data = await langAppApi.get<LangAppAPITypeV3>({
-          source: 'firebase',
-          url: 'https://52644fae60d09042.mokky.dev/learn-lang-modules'
+          source: 'cloud',
+          url: API_URL.value
         })
-        if(data?.length){
-          console.log(data)
-          await app.addModule(userId?.value, data[0][userId.value])
+        
+        if(data){
+        
+          await app.addModule(userId, data[userId.value])
           await delay(1000)
           setSuccess()
+        }
+        else {
+
+          await app.addModule(userId.value, [])
         }
        
       }

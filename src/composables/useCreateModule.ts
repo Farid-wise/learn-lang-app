@@ -1,5 +1,5 @@
 import { langAppApi } from "@/api/LangAppApi";
-import type { LangAppAPIType, LangAppAPITypeV2, Module } from "@/types/app-api.types";
+import type { LangAppAPITypeV2, Module } from "@/types/app-api.types";
 import { onMounted, ref } from "vue";
 import { useLS } from "./service/useLS";
 import { delay } from "@/utils/delay";
@@ -7,6 +7,7 @@ import { useRouter } from "vue-router";
 import { moduleExists } from "@/utils/module-exists";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/stores/auth";
+import { API_URL } from "@/api/config/config";
 
 /**
  * Provides reactive variables and functions for creating a module
@@ -23,7 +24,7 @@ export const useCreateModule = () => {
 
   const router = useRouter();
   const {userId} = storeToRefs(useAuthStore())
-  const source = ref<"localstorage" | "firebase">("localstorage");
+  const source = ref<"localstorage" | "cloud">("localstorage");
 
   const createStatuses = ref<{ isCreating: boolean; error: string }>({
     isCreating: false,
@@ -34,12 +35,12 @@ export const useCreateModule = () => {
   const description = ref<string>("");
 
   onMounted(async () => {
-    source.value = getSync<"localstorage" | "firebase">("storage") ?? "localstorage";
+    source.value = getSync<"localstorage" | "cloud">("storage") ?? "localstorage";
 
-    if(await langAppApi.get<LangAppAPITypeV2>({ url: 'https://52644fae60d09042.mokky.dev/learn-lang-modules', source: source.value}) === null){
+    if((await langAppApi.get<LangAppAPITypeV2>({ url: API_URL.value, source: source.value})) === null){
       await langAppApi.create<LangAppAPITypeV2>({
         source: source.value,
-        url: 'https://52644fae60d09042.mokky.dev/learn-lang-modules', 
+        url: API_URL.value,
         data: { [userId.value]: [] }
       });
     }

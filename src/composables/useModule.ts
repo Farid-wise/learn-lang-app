@@ -29,41 +29,31 @@ export const useModule = (modules: Module[]) => {
   const route = useRoute();
   const target = useTemplateRef<HTMLElement>("target");
 
-
   const slug = computed(() => route?.params?.slug as string);
   const descrRef = useTemplateRef("descr");
-  
 
   const app = useAppStore();
-  const {userId} = storeToRefs(useAuthStore())
+  const { userId } = storeToRefs(useAuthStore());
   const toast = useToast();
   //const dialog = useDialog()
 
-  const resultsStore = useTestsStore()
+  const resultsStore = useTestsStore();
 
   const isNameError = ref<boolean>(false);
   const isNameUpdating = ref<boolean>(false);
   const isDescriptionUpdating = ref<boolean>(false);
   const isRemovingModule = ref<boolean>(false);
 
-
   const toggleCreateDict = ref<boolean>(true);
   const toggleEditableName = ref<boolean>(false);
   const toggleEditableDescription = ref<boolean>(false);
 
-
-
   const editName = ref<string>(
-    modules.find((m) => m.moduleName === slug.value)
-      ?.moduleName || ""
+    modules.find((m) => m.moduleName === slug.value)?.moduleName || ""
   );
   const editDescription = ref<string>(
-    modules.find((m) => m.moduleName === slug.value)
-      ?.description || ""
+    modules.find((m) => m.moduleName === slug.value)?.description || ""
   );
-
-
-
 
   const onBlurNameSave = async () => {
     isNameError.value = false;
@@ -101,13 +91,18 @@ export const useModule = (modules: Module[]) => {
     await delay(500);
 
     isNameUpdating.value = false;
-    app.updateModuleNameAndDescription(userId.value, slug.value, { name: editName.value });
+    app.updateModuleNameAndDescription(userId.value, slug.value, {
+      name: editName.value,
+    });
     toggleEditableName.value = false;
   };
 
   const onBlurDescriptionSave = () => {
-
-    if(editDescription.value === app.appModules[userId.value].find((m) => m.moduleName === slug.value)?.description) {
+    if (
+      editDescription.value ===
+      app.appModules[userId.value].find((m) => m.moduleName === slug.value)
+        ?.description
+    ) {
       toggleEditableDescription.value = false;
       return;
     }
@@ -124,9 +119,7 @@ export const useModule = (modules: Module[]) => {
 
     try {
       await app.removeModule(userId, slug);
-      resultsStore.removeResults(slug)
-
-      
+      resultsStore.removeResults(slug);
     } catch (error) {
       console.log(error);
       toast.add({
@@ -142,14 +135,11 @@ export const useModule = (modules: Module[]) => {
 
   const createDict = () => {
     toggleCreateDict.value = !toggleCreateDict.value;
-  }
-
+  };
 
   onClickOutside(target, () => {
     toggleEditableDescription.value = false;
   });
-
-
 
   return {
     toggleEditableName,
